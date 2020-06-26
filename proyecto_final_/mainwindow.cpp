@@ -6,15 +6,15 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    scene = new QGraphicsScene(0,0,480,480);
+    ui->graphicsView->resize(256,256);
+    scene = new QGraphicsScene(0,0,256,256);
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
-    scene_2 = new QGraphicsScene(0,0,280,100);
-    ui->graphicsView->setScene(scene_2);
-    scene->backgroundBrush();
+    ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
 
-    player_1 = new jugador(20,20,15);
-    scene->addItem(player_1);
+    //player_1 = new jugador(20,20,15);
+    //scene->addItem(player_1);
+
 
 
 }
@@ -81,7 +81,33 @@ void MainWindow::disparar(int posicion)
 
 }
 
+
 void MainWindow::on_pushButton_clicked()
+{
+    QString texto_verificar = ui->inicio_texto->text();
+    QFile archivo("datos.txt");
+    QStringList texto_separado;
+    if (archivo.open(QIODevice::ReadOnly))
+    {
+        QTextStream in(&archivo);
+           while (!in.atEnd())
+           {
+              QString line = in.readLine();
+              texto_separado = line.split(';');
+              if(texto_separado[0]==texto_verificar)
+              {
+                  archivo.close();
+                  this->close();
+                  return;
+              }
+
+           }
+           archivo.close();
+    }
+
+}
+
+void MainWindow::on_pushButton_2_clicked()
 {
 
 }

@@ -7,6 +7,10 @@
 #include <QMainWindow>
 #include <jugador.h>
 #include <bala.h>
+#include <QString>
+#include <QVector>
+#include <QFile>
+#include <QTextStream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,6 +26,8 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;
