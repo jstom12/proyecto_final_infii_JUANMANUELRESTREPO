@@ -10,6 +10,16 @@ int jugador::getPosy() const
     return posy;
 }
 
+int jugador::getDir() const
+{
+    return dir;
+}
+
+void jugador::setDir(int value)
+{
+    dir = value;
+}
+
 jugador::jugador()
 {
 

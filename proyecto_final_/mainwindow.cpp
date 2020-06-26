@@ -11,9 +11,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
     ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
+    timer = new QTimer();
+    connect(timer,SIGNAL(timeout()),this,SLOT(disparar()));
 
-    //player_1 = new jugador(20,20,15);
-    //scene->addItem(player_1);
+    player_1 = new jugador(20,20,15);
+    scene->addItem(player_1);
 
 
 
@@ -29,26 +31,31 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
     if(evento->key()==Qt::Key_D)
     {
         player_1->move_right();
-        disparar(4);
+        player_1->setDir(4);
 
     }
     if(evento->key()==Qt::Key_A)
     {
         player_1->move_left();
-        disparar(3);
+        player_1->setDir(3);
 
     }
     if(evento->key()==Qt::Key_S)
     {
         player_1->move_down();
-        disparar(2);
+        player_1->setDir(2);
 
     }
     if(evento->key()==Qt::Key_W)
     {
         player_1->move_up();
-        disparar(1);
+        player_1->setDir(1);
 
+    }
+    if(evento->key()==Qt::Key_R)
+    {
+        disparar(player_1->getDir());
+        timer->start(30);
     }
 }
 
@@ -109,5 +116,33 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    QString texto_verificar = ui->crear_texto->text();
+    QFile archivo("datos.txt");
+    QStringList texto_separado;
+    if (archivo.open(QIODevice::ReadOnly))
+    {
+        QTextStream in(&archivo);
+           while (!in.atEnd())
+           {
+              QString line = in.readLine();
+              texto_separado = line.split(';');
+              if(texto_separado[0]==texto_verificar)
+              {
+                  QMessageBox::information(this,tr("ERROR"),tr("Este jugador ya esta registrado"));
+                  archivo.close();
+                  return;
+              }
+           }
+    }
+    archivo.close();
+    QFile archivo_2("datos.txt");
+    if (archivo_2.open(QIODevice::WriteOnly | QIODevice::Append))
+    {
+        QTextStream in(&archivo_2);
+        in << texto_verificar << ";" << endl;
+        QMessageBox::information(this,tr("!!!!!"),tr("¡Te has registrado con exito!"));
+        archivo_2.close();
+        return;
+    }
 
 }

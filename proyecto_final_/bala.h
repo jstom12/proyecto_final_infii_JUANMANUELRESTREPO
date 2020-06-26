@@ -6,6 +6,7 @@
 class bala : public QGraphicsItem
 {
     int posx,posy,r;
+    double vel=5;
 
 public:
     bala();

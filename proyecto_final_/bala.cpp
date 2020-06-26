@@ -12,25 +12,25 @@ void bala::setPosy(int value)
 
 void bala::right()
 {
-    posx+=50;
+    posx+= posx + vel;
     setPos(posx,posy);
 }
 
 void bala::left()
 {
-    posx-=50;
+    posx-= posx + vel;
     setPos(posx,posy);
 }
 
 void bala::up()
 {
-    posy-=50;
+    posy-= posy + vel;
     setPos(posx,posy);
 }
 
 void bala::down()
 {
-    posy+=50;
+    posy+= posy + vel;
     setPos(posx,posy);
 }
 
