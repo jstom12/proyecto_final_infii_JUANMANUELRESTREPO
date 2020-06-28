@@ -38,6 +38,11 @@ private:
     QTimer *timer;
     jugador *player_1;
     bala *disparo;
+    QList<bala*> balas_up;
+    QList<bala*> balas_down;
+    QList<bala*> balas_righ;
+    QList<bala*> balas_left;
+
     //int *posicion;
     void keyPressEvent(QKeyEvent *evento);
 

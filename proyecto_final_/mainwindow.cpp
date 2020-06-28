@@ -6,14 +6,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->graphicsView->resize(256,256);
-    scene = new QGraphicsScene(0,0,256,256);
+    ui->graphicsView->resize(800,300);
+    scene = new QGraphicsScene(0,0,790,290);
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
     ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
     timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(disparar()));
-
+    QMessageBox::information(this,tr("BIENVENIDO"),tr("¡recuerda iniciar o crear sesion y elegir un mapa antes de entrar a jugar!"));
     player_1 = new jugador(20,20,15);
     scene->addItem(player_1);
 
@@ -55,7 +55,7 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
     if(evento->key()==Qt::Key_R)
     {
         disparar(player_1->getDir());
-        timer->start(30);
+        //timer->start(30);
     }
 }
 
@@ -63,9 +63,14 @@ void MainWindow::disparar(int posicion)
 {
     if(posicion==1)
     {
-        disparo = new bala(player_1->getPosx(),player_1->getPosy(),5);
-        disparo->up();
-        scene->addItem(disparo);
+        balas_up.push_back(new bala(player_1->getPosx(),player_1->getPosy(),5));
+        scene->addItem(balas_up.back());
+        for(QList<bala*>::iterator it=balas_up.begin();it!=balas_up.end();it++)
+        {
+            (*it)->up();
+        }
+
+
     }
     if(posicion==2)
     {
