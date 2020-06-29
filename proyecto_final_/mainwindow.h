@@ -12,6 +12,9 @@
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QDialog>
+#include "pantalla_menu.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,6 +36,7 @@ private slots:
     void disparar(int posicion);
 private:
     Ui::MainWindow *ui;
+    Pantalla_Menu *second_pantalla;
     QGraphicsScene *scene;
     QGraphicsScene *scene_2;
     QTimer *timer;

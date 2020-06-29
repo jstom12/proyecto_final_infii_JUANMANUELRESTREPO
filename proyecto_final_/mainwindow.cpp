@@ -96,7 +96,15 @@ void MainWindow::disparar(int posicion)
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString texto_verificar = ui->inicio_texto->text();
+    /*
+    Lineas de codigo para ocultar ventana actual y abrir nueva ventana.
+    */
+    this->hide();
+    second_pantalla = new Pantalla_Menu(this);
+    second_pantalla->show();
+
+
+    /*QString texto_verificar = ui->inicio_texto->text();
     QFile archivo("datos.txt");
     QStringList texto_separado;
     if (archivo.open(QIODevice::ReadOnly))
@@ -115,7 +123,7 @@ void MainWindow::on_pushButton_clicked()
 
            }
            archivo.close();
-    }
+    }*/
 
 }
 
