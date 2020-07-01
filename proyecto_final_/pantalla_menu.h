@@ -2,7 +2,13 @@
 #define PANTALLA_MENU_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+#include <QTimer>
+#include <QKeyEvent>
+#include <jugador.h>
+#include <bala.h>
 #include <QDialog>
+
 
 namespace Ui {
 class Pantalla_Menu;
@@ -17,18 +23,21 @@ public:
     ~Pantalla_Menu();
 
 private slots:
-    void on_verificar_clicked();
-
-    void on_crear_clicked();
-
-    void on_op_1_clicked();
-
-    void on_op_2_clicked();
-
-    void on_op_3_clicked();
+    void disparar(int posicion);
 
 private:
     Ui::Pantalla_Menu *ui;
+    //MainWindow *pantalla_volver;
+    QGraphicsScene *scene;
+    QTimer *timer;
+    jugador *player_1;
+    bala *disparo;
+    QList<bala*> balas_up;
+    QList<bala*> balas_down;
+    QList<bala*> balas_righ;
+    QList<bala*> balas_left;
+
+    void keyPressEvent(QKeyEvent *evento);
 };
 
 #endif // PANTALLA_MENU_H

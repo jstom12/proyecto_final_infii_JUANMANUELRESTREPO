@@ -34,11 +34,12 @@ private slots:
     void on_pushButton_2_clicked();
 
     void disparar(int posicion);
+    void on_pushButton_6_clicked();
+
 private:
     Ui::MainWindow *ui;
     Pantalla_Menu *second_pantalla;
     QGraphicsScene *scene;
-    QGraphicsScene *scene_2;
     QTimer *timer;
     jugador *player_1;
     bala *disparo;

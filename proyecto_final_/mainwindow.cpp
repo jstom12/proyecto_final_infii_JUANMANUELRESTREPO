@@ -96,15 +96,8 @@ void MainWindow::disparar(int posicion)
 
 void MainWindow::on_pushButton_clicked()
 {
-    /*
-    Lineas de codigo para ocultar ventana actual y abrir nueva ventana.
-    */
-    this->hide();
-    second_pantalla = new Pantalla_Menu(this);
-    second_pantalla->show();
 
-
-    /*QString texto_verificar = ui->inicio_texto->text();
+    QString texto_verificar = ui->inicio_texto->text();
     QFile archivo("datos.txt");
     QStringList texto_separado;
     if (archivo.open(QIODevice::ReadOnly))
@@ -123,7 +116,7 @@ void MainWindow::on_pushButton_clicked()
 
            }
            archivo.close();
-    }*/
+    }
 
 }
 
@@ -158,4 +151,14 @@ void MainWindow::on_pushButton_2_clicked()
         return;
     }
 
+}
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    /*
+    Lineas de codigo para ocultar ventana actual y abrir nueva ventana.
+    */
+    this->hide();
+    second_pantalla = new Pantalla_Menu(this);
+    second_pantalla->show();
 }

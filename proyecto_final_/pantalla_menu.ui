@@ -14,138 +14,14 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="verificar">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>160</y>
-      <width>75</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Verificar</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="crear">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>160</y>
-      <width>75</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Crear</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="iniciar_sesion_menu">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>40</y>
-      <width>100</width>
-      <height>15</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Iniciar Sesion</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="crear_per">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>40</y>
-      <width>100</width>
-      <height>15</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Crear Personaje</string>
-    </property>
-   </widget>
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>240</y>
-      <width>600</width>
-      <height>200</height>
+      <x>0</x>
+      <y>0</y>
+      <width>950</width>
+      <height>650</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="texto_ini">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>100</y>
-      <width>115</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="texto_cre">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>100</y>
-      <width>115</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="entrar_game">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>570</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ENTRAR</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="op_1">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>470</y>
-      <width>30</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>1</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="op_2">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>470</y>
-      <width>30</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>2</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="op_3">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>470</y>
-      <width>30</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>3</string>
     </property>
    </widget>
   </widget>
