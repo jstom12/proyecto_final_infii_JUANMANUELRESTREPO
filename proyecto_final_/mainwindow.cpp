@@ -6,17 +6,19 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->graphicsView->resize(800,300);
-    scene = new QGraphicsScene(0,0,790,290);
+    //ui->graphicsView->resize(800,300);
+    scene = new QGraphicsScene(0,0,980,680);
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
     ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
-    timer = new QTimer();
-    connect(timer,SIGNAL(timeout()),this,SLOT(disparar()));
+    //timer = new QTimer();
+    //connect(timer,SIGNAL(timeout()),this,SLOT(disparar()));
     QMessageBox::information(this,tr("BIENVENIDO"),tr("¡recuerda iniciar o crear sesion y elegir un mapa antes de entrar a jugar!"));
     player_1 = new jugador(20,20,15);
     scene->addItem(player_1);
-
+    this->hide();
+    second_pantalla = new Pantalla_Menu(this);
+    second_pantalla->show();
 
 
 }
@@ -57,6 +59,12 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
         disparar(player_1->getDir());
         //timer->start(30);
     }
+    if(evento->key()==Qt::Key_Escape)
+    {
+        Pantalla_Menu *pantalla_menu = new Pantalla_Menu;
+        this->hide();
+        pantalla_menu->show();
+    }
 }
 
 void MainWindow::disparar(int posicion)
@@ -93,72 +101,3 @@ void MainWindow::disparar(int posicion)
 
 }
 
-
-void MainWindow::on_pushButton_clicked()
-{
-
-    QString texto_verificar = ui->inicio_texto->text();
-    QFile archivo("datos.txt");
-    QStringList texto_separado;
-    if (archivo.open(QIODevice::ReadOnly))
-    {
-        QTextStream in(&archivo);
-           while (!in.atEnd())
-           {
-              QString line = in.readLine();
-              texto_separado = line.split(';');
-              if(texto_separado[0]==texto_verificar)
-              {
-                  archivo.close();
-                  this->close();
-                  return;
-              }
-
-           }
-           archivo.close();
-    }
-
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    QString texto_verificar = ui->crear_texto->text();
-    QFile archivo("datos.txt");
-    QStringList texto_separado;
-    if (archivo.open(QIODevice::ReadOnly))
-    {
-        QTextStream in(&archivo);
-           while (!in.atEnd())
-           {
-              QString line = in.readLine();
-              texto_separado = line.split(';');
-              if(texto_separado[0]==texto_verificar)
-              {
-                  QMessageBox::information(this,tr("ERROR"),tr("Este jugador ya esta registrado"));
-                  archivo.close();
-                  return;
-              }
-           }
-    }
-    archivo.close();
-    QFile archivo_2("datos.txt");
-    if (archivo_2.open(QIODevice::WriteOnly | QIODevice::Append))
-    {
-        QTextStream in(&archivo_2);
-        in << texto_verificar << ";" << endl;
-        QMessageBox::information(this,tr("!!!!!"),tr("¡Te has registrado con exito!"));
-        archivo_2.close();
-        return;
-    }
-
-}
-
-void MainWindow::on_pushButton_6_clicked()
-{
-    /*
-    Lineas de codigo para ocultar ventana actual y abrir nueva ventana.
-    */
-    this->hide();
-    second_pantalla = new Pantalla_Menu(this);
-    second_pantalla->show();
-}

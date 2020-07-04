@@ -3,11 +3,16 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
-#include <QTimer>
-#include <QKeyEvent>
+//#include <QTimer>
+//#include <QKeyEvent>
 #include <jugador.h>
 #include <bala.h>
 #include <QDialog>
+#include <QFile>
+#include <QString>
+#include <QTextStream>
+#include <QMessageBox>
+
 
 
 namespace Ui {
@@ -23,21 +28,33 @@ public:
     ~Pantalla_Menu();
 
 private slots:
-    void disparar(int posicion);
+
+
+    void on_verifica_inicio_clicked();
+
+    void on_verificar_crear_clicked();
+
+    void on_opcion_1_clicked();
+
+    void on_opcion_2_clicked();
+
+    void on_opcion_3_clicked();
+
+    void on_iniciar_juego_clicked();
 
 private:
     Ui::Pantalla_Menu *ui;
     //MainWindow *pantalla_volver;
     QGraphicsScene *scene;
-    QTimer *timer;
-    jugador *player_1;
-    bala *disparo;
-    QList<bala*> balas_up;
-    QList<bala*> balas_down;
-    QList<bala*> balas_righ;
-    QList<bala*> balas_left;
+    //QTimer *timer;
+    //jugador *player_1;
+    //bala *disparo;
+    //QList<bala*> balas_up;
+    //QList<bala*> balas_down;
+    //QList<bala*> balas_righ;
+    //QList<bala*> balas_left;
 
-    void keyPressEvent(QKeyEvent *evento);
+
 };
 
 #endif // PANTALLA_MENU_H

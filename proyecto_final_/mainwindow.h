@@ -29,12 +29,11 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
 
-    void on_pushButton_2_clicked();
+
 
     void disparar(int posicion);
-    void on_pushButton_6_clicked();
+
 
 private:
     Ui::MainWindow *ui;

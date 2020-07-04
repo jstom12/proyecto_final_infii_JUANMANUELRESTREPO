@@ -11,11 +11,10 @@ Pantalla_Menu::Pantalla_Menu(QWidget *parent) :
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
     ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
-    timer = new QTimer();
-    connect(timer,SIGNAL(timeout()),this,SLOT(disparar()));
+
     //QMessageBox::information(this,tr("BIENVENIDO"),tr("¡recuerda iniciar o crear sesion y elegir un mapa antes de entrar a jugar!"));
-    player_1 = new jugador(20,20,15);
-    scene->addItem(player_1);
+    //player_1 = new jugador(20,20,15);
+    //scene->addItem(player_1);
 }
 
 Pantalla_Menu::~Pantalla_Menu()
@@ -23,70 +22,80 @@ Pantalla_Menu::~Pantalla_Menu()
     delete ui;
 }
 
-void Pantalla_Menu::keyPressEvent(QKeyEvent *evento)
+
+
+void Pantalla_Menu::on_verifica_inicio_clicked()
 {
-    if(evento->key()==Qt::Key_D)
+    QString texto_verificar = ui->texto_inicio->text();
+    QFile archivo("datos.txt");
+    QStringList texto_separado;
+    if (archivo.open(QIODevice::ReadOnly))
     {
-        player_1->move_right();
-        player_1->setDir(4);
+        QTextStream in(&archivo);
+           while (!in.atEnd())
+           {
+              QString line = in.readLine();
+              texto_separado = line.split(';');
+              if(texto_separado[0]==texto_verificar)
+              {
+                  archivo.close();
+                  this->close();
+                  return;
+              }
 
+           }
+           archivo.close();
     }
-    if(evento->key()==Qt::Key_A)
-    {
-        player_1->move_left();
-        player_1->setDir(3);
+}
 
-    }
-    if(evento->key()==Qt::Key_S)
+void Pantalla_Menu::on_verificar_crear_clicked()
+{
+    QString texto_verificar = ui->texto_crear->text();
+    QFile archivo("datos.txt");
+    QStringList texto_separado;
+    if (archivo.open(QIODevice::ReadOnly))
     {
-        player_1->move_down();
-        player_1->setDir(2);
+        QTextStream in(&archivo);
+           while (!in.atEnd())
+           {
+              QString line = in.readLine();
+              texto_separado = line.split(';');
+              if(texto_separado[0]==texto_verificar)
+              {
+                  QMessageBox::information(this,tr("ERROR"),tr("Este jugador ya esta registrado"));
+                  archivo.close();
+                  return;
+              }
+           }
+    }
+    archivo.close();
+    QFile archivo_2("datos.txt");
+    if (archivo_2.open(QIODevice::WriteOnly | QIODevice::Append))
+    {
+        QTextStream in(&archivo_2);
+        in << texto_verificar << ";" << endl;
+        QMessageBox::information(this,tr("!!!!!"),tr("¡Te has registrado con exito!"));
+        archivo_2.close();
+        return;
+    }
+}
 
-    }
-    if(evento->key()==Qt::Key_W)
-    {
-        player_1->move_up();
-        player_1->setDir(1);
-
-    }
-    if(evento->key()==Qt::Key_R)
-    {
-        disparar(player_1->getDir());
-        //timer->start(30);
-    }
+void Pantalla_Menu::on_opcion_1_clicked()
+{
 
 }
-void Pantalla_Menu::disparar(int posicion)
-{
-    if(posicion==1)
-    {
-        disparo = new bala(player_1->getPosx(),player_1->getPosy(),5);
-        disparo->up();
-        scene->addItem(disparo);
-        /*balas_up.push_back(new bala(player_1->getPosx(),player_1->getPosy(),5));
-        scene->addItem(balas_up.back());
-        for(QList<bala*>::iterator it=balas_up.begin();it!=balas_up.end();it++)
-        {
-            (*it)->up();
-        }*/
-    }
-    if(posicion==2)
-    {
-        disparo = new bala(player_1->getPosx(),player_1->getPosy(),5);
-        disparo->down();
-        scene->addItem(disparo);
-    }
-    if(posicion==3)
-    {
-        disparo = new bala(player_1->getPosx(),player_1->getPosy(),5);
-        disparo->left();
-        scene->addItem(disparo);
-    }
-    if(posicion==4)
-    {
-        disparo = new bala(player_1->getPosx(),player_1->getPosy(),5);
-        disparo->right();
-        scene->addItem(disparo);
-    }
 
+void Pantalla_Menu::on_opcion_2_clicked()
+{
+
+}
+
+void Pantalla_Menu::on_opcion_3_clicked()
+{
+
+}
+
+void Pantalla_Menu::on_iniciar_juego_clicked()
+{
+    this->hide();
 }
