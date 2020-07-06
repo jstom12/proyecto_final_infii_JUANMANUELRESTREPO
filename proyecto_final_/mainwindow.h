@@ -14,6 +14,7 @@
 #include <QMessageBox>
 #include <QDialog>
 #include "pantalla_menu.h"
+#include <QMenuBar>
 
 
 QT_BEGIN_NAMESPACE
@@ -34,6 +35,18 @@ private slots:
 
     void disparar(int posicion);
 
+
+    void on_verificar_inicio_clicked();
+
+    void on_crear_usuario_clicked();
+
+    void on_opcion_1_clicked();
+
+    void on_opcion_2_clicked();
+
+    void on_opcion_3_clicked();
+
+    void on_iniciar_game_clicked();
 
 private:
     Ui::MainWindow *ui;

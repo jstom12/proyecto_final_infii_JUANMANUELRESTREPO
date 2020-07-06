@@ -42,6 +42,8 @@ private slots:
 
     void on_iniciar_juego_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::Pantalla_Menu *ui;
     //MainWindow *pantalla_volver;

@@ -99,3 +99,8 @@ void Pantalla_Menu::on_iniciar_juego_clicked()
 {
     this->hide();
 }
+
+void Pantalla_Menu::on_pushButton_clicked()
+{
+
+}

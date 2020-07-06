@@ -20,13 +20,15 @@ SOURCES += \
     jugador.cpp \
     main.cpp \
     mainwindow.cpp \
-    pantalla_menu.cpp
+    pantalla_menu.cpp \
+    pared.cpp
 
 HEADERS += \
     bala.h \
     jugador.h \
     mainwindow.h \
-    pantalla_menu.h
+    pantalla_menu.h \
+    pared.h
 
 FORMS += \
     mainwindow.ui \
