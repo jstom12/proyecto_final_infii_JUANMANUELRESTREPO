@@ -15,6 +15,7 @@
 #include <QDialog>
 #include <QMenuBar>
 #include <pared.h>
+#include <suelo.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -62,6 +63,11 @@ private:
     pared *pared_izq;
     pared *pared_up;
     pared *pared_do;
+    suelo *suelo_1;
+    suelo *suelo_2;
+    suelo *suelo_3;
+    suelo *suelo_4;
+    suelo *suelo_5;
 
     //int *posicion;
     void keyPressEvent(QKeyEvent *evento);

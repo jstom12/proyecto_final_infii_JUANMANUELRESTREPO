@@ -21,7 +21,9 @@ QRectF pared::boundingRect() const
 void pared::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
-    QPixmap pixmap;
-    pixmap.load(":/new/prefix1/resources/puas.jpg");
-    painter->drawPixmap(boundingRect(),pixmap,pixmap.rect());
+    painter->setBrush(Qt::yellow);
+    painter->drawRect(boundingRect());
+    /*QPixmap pixmap;
+    pixmap.load(":/new/prefix1/resources/puas.png");
+    painter->drawPixmap(boundingRect(),pixmap,pixmap.rect());*/
 }

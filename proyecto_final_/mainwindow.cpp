@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     //ui->graphicsView->resize(800,300);
-    scene = new QGraphicsScene(0,0,980,680);
+    scene = new QGraphicsScene(0,0,790,690);
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
     ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
@@ -15,8 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     //connect(timer,SIGNAL(timeout()),this,SLOT(disparar()));
     QMessageBox::information(this,tr("BIENVENIDO"),tr("¡recuerda iniciar o crear sesion y elegir un mapa antes de entrar a jugar!"));
 
-    player_1 = new jugador(20,20,15);
-    scene->addItem(player_1);
+    //player_1 = new jugador(20,20,15);
+    //scene->addItem(player_1);
 
 
 
@@ -155,21 +155,63 @@ void MainWindow::on_crear_usuario_clicked()
 
 void MainWindow::on_opcion_1_clicked()
 {
-    pared_do = new pared(0,0,500,500);
+    /*
+    Paredes.
+    */
+    scene->clear();
+    pared_do = new pared(0,-680,780,20);
+    pared_der = new pared(-780,0,20,700);
+    pared_up = new pared(0,0,780,20);
+    pared_izq = new pared(0,0,20,680);
+    scene->addItem(pared_up);
+    scene->addItem(pared_der);
+    scene->addItem(pared_izq);
     scene->addItem(pared_do);
+
+    /*
+    Suelo.
+    */
+    suelo_1 = new suelo(-20,-20,250,650,2);
+    suelo_2 = new suelo(-270,-20,250,150,3);
+    suelo_3 = new suelo(-520,-20,230,650,2);
+    suelo_4 = new suelo(-270,-400,250,250,3);
+    suelo_5 = new suelo(-270,-170,250,250,1);
+    scene->addItem(suelo_1);
+    scene->addItem(suelo_2);
+    scene->addItem(suelo_3);
+    scene->addItem(suelo_4);
+    scene->addItem(suelo_5);
+
 }
 
 void MainWindow::on_opcion_2_clicked()
 {
-
+    scene->clear();
+    pared_do = new pared(0,-680,780,20);
+    pared_der = new pared(-780,0,20,700);
+    pared_up = new pared(0,0,780,20);
+    pared_izq = new pared(0,0,20,680);
+    scene->addItem(pared_up);
+    scene->addItem(pared_der);
+    scene->addItem(pared_izq);
+    scene->addItem(pared_do);
 }
 
 void MainWindow::on_opcion_3_clicked()
 {
-
+    scene->clear();
+    pared_do = new pared(0,-670,780,20);
+    pared_der = new pared(-770,0,20,700);
+    pared_up = new pared(0,0,780,20);
+    pared_izq = new pared(0,0,20,680);
+    scene->addItem(pared_up);
+    scene->addItem(pared_der);
+    scene->addItem(pared_izq);
+    scene->addItem(pared_do);
 }
 
 void MainWindow::on_iniciar_game_clicked()
 {
-
+    player_1 = new jugador(0,0,20);
+    scene->addItem(player_1);
 }
