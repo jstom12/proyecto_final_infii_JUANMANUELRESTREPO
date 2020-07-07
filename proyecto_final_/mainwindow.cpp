@@ -17,9 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     player_1 = new jugador(20,20,15);
     scene->addItem(player_1);
-    //this->hide();
-    //second_pantalla = new Pantalla_Menu(this);
-    //second_pantalla->show();
+
 
 
 }
@@ -62,9 +60,7 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
     }
     if(evento->key()==Qt::Key_Escape)
     {
-        Pantalla_Menu *pantalla_menu = new Pantalla_Menu;
-        this->hide();
-        pantalla_menu->show();
+
     }
 }
 
@@ -159,7 +155,8 @@ void MainWindow::on_crear_usuario_clicked()
 
 void MainWindow::on_opcion_1_clicked()
 {
-
+    pared_do = new pared(0,0,500,500);
+    scene->addItem(pared_do);
 }
 
 void MainWindow::on_opcion_2_clicked()

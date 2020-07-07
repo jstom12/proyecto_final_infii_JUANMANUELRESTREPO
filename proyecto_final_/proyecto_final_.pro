@@ -20,19 +20,16 @@ SOURCES += \
     jugador.cpp \
     main.cpp \
     mainwindow.cpp \
-    pantalla_menu.cpp \
     pared.cpp
 
 HEADERS += \
     bala.h \
     jugador.h \
     mainwindow.h \
-    pantalla_menu.h \
     pared.h
 
 FORMS += \
-    mainwindow.ui \
-    pantalla_menu.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -13,8 +13,8 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QDialog>
-#include "pantalla_menu.h"
 #include <QMenuBar>
+#include <pared.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -49,8 +49,7 @@ private slots:
     void on_iniciar_game_clicked();
 
 private:
-    Ui::MainWindow *ui;
-    Pantalla_Menu *second_pantalla;
+    Ui::MainWindow *ui;    
     QGraphicsScene *scene;
     QTimer *timer;
     jugador *player_1;
@@ -59,6 +58,10 @@ private:
     QList<bala*> balas_down;
     QList<bala*> balas_righ;
     QList<bala*> balas_left;
+    pared *pared_der;
+    pared *pared_izq;
+    pared *pared_up;
+    pared *pared_do;
 
     //int *posicion;
     void keyPressEvent(QKeyEvent *evento);
