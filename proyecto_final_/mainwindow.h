@@ -34,7 +34,7 @@ private slots:
 
 
 
-    void disparar(int posicion);
+    void disparar(int posx, int posy, int posicion);
 
     void procesos();
 
@@ -52,11 +52,14 @@ private slots:
 
     void on_iniciar_game_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;    
     QGraphicsScene *scene;
     QTimer *timer;
     jugador *player_1;
+    jugador *player_2;
     bala *disparo;
     QList<bala*> balas_up;
     QList<bala*> balas_down;
