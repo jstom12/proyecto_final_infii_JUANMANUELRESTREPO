@@ -18,7 +18,7 @@ void bala::right()
 
 void bala::left()
 {
-    posx-= (posx-(posx+vel));
+    posx+= (posx-(posx+vel));
     setPos(posx,posy);
 }
 

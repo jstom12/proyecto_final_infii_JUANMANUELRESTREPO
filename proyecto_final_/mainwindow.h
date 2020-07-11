@@ -36,6 +36,9 @@ private slots:
 
     void disparar(int posicion);
 
+    void procesos();
+
+    void animacion_balas(QList<bala*> lista , int pos);
 
     void on_verificar_inicio_clicked();
 

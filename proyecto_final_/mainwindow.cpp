@@ -11,8 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
     ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
-    //timer = new QTimer();
-    //connect(timer,SIGNAL(timeout()),this,SLOT(disparar()));
+    timer = new QTimer();
+    connect(timer,SIGNAL(timeout()),this,SLOT(procesos()));
     QMessageBox::information(this,tr("BIENVENIDO"),tr("¡recuerda iniciar o crear sesion y elegir un mapa antes de entrar a jugar!"));
 
     //player_1 = new jugador(20,20,15);
@@ -56,7 +56,6 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
     if(evento->key()==Qt::Key_R)
     {
         disparar(player_1->getDir());
-        //timer->start(30);
     }
     if(evento->key()==Qt::Key_Escape)
     {
@@ -77,23 +76,64 @@ void MainWindow::disparar(int posicion)
     }
     if(posicion==2)
     {
-        disparo = new bala(player_1->getPosx(),player_1->getPosy(),5);
-        disparo->down();
-        scene->addItem(disparo);
+        balas_down.push_back(new bala(player_1->getPosx(),player_1->getPosy(),5));
+        scene->addItem(balas_down.back());
+        for(QList<bala*>::iterator it=balas_down.begin();it!=balas_down.end();it++)
+        {
+            (*it)->down();
+        }
     }
     if(posicion==3)
     {
-        disparo = new bala(player_1->getPosx(),player_1->getPosy(),5);
-        disparo->left();
-        scene->addItem(disparo);
+        balas_left.push_back(new bala(player_1->getPosx(),player_1->getPosy(),5));
+        scene->addItem(balas_left.back());
+        for(QList<bala*>::iterator it=balas_left.begin();it!=balas_left.end();it++)
+        {
+            (*it)->left();
+        }
     }
     if(posicion==4)
     {
-        disparo = new bala(player_1->getPosx(),player_1->getPosy(),5);
-        disparo->right();
-        scene->addItem(disparo);
+        balas_righ.push_back(new bala(player_1->getPosx(),player_1->getPosy(),5));
+        scene->addItem(balas_righ.back());
+        for(QList<bala*>::iterator it=balas_righ.begin();it!=balas_righ.end();it++)
+        {
+            (*it)->right();
+        }
     }
 
+}
+
+void MainWindow::procesos()
+{
+    animacion_balas(balas_up,1);
+    animacion_balas(balas_down,2);
+    animacion_balas(balas_left,3);
+    animacion_balas(balas_righ,4);
+
+}
+
+void MainWindow::animacion_balas(QList<bala *> lista , int pos)
+{
+    for(QList<bala*>::iterator it=lista.begin();it!=lista.end();it++)
+    {
+        if(pos==1)
+        {
+            (*it)->up();
+        }
+        if(pos==2)
+        {
+            (*it)->down();
+        }
+        if(pos==3)
+        {
+            (*it)->left();
+        }
+        if(pos==4)
+        {
+            (*it)->right();
+        }
+    }
 }
 
 
@@ -195,6 +235,17 @@ void MainWindow::on_opcion_2_clicked()
     scene->addItem(pared_der);
     scene->addItem(pared_izq);
     scene->addItem(pared_do);
+
+    suelo_1 = new suelo(-20,-20,250,650,2);
+    suelo_2 = new suelo(-270,-20,250,150,2);
+    suelo_3 = new suelo(-520,-20,230,650,2);
+    suelo_4 = new suelo(-270,-400,250,250,2);
+    suelo_5 = new suelo(-270,-170,250,250,1);
+    scene->addItem(suelo_1);
+    scene->addItem(suelo_2);
+    scene->addItem(suelo_3);
+    scene->addItem(suelo_4);
+    scene->addItem(suelo_5);
 }
 
 void MainWindow::on_opcion_3_clicked()
@@ -208,10 +259,22 @@ void MainWindow::on_opcion_3_clicked()
     scene->addItem(pared_der);
     scene->addItem(pared_izq);
     scene->addItem(pared_do);
+
+    suelo_1 = new suelo(-20,-20,250,650,3);
+    suelo_2 = new suelo(-270,-20,250,150,3);
+    suelo_3 = new suelo(-520,-20,230,650,3);
+    suelo_4 = new suelo(-270,-400,250,250,3);
+    suelo_5 = new suelo(-270,-170,250,250,1);
+    scene->addItem(suelo_1);
+    scene->addItem(suelo_2);
+    scene->addItem(suelo_3);
+    scene->addItem(suelo_4);
+    scene->addItem(suelo_5);
 }
 
 void MainWindow::on_iniciar_game_clicked()
 {
     player_1 = new jugador(0,0,20);
     scene->addItem(player_1);
+    timer->start(10);
 }
