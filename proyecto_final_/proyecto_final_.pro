@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     bala.cpp \
+    enemy.cpp \
     jugador.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     bala.h \
+    enemy.h \
     jugador.h \
     mainwindow.h \
     pared.h \
