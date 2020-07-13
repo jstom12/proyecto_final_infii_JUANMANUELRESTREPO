@@ -20,9 +20,14 @@ void jugador::setDir(int value)
     dir = value;
 }
 
+void jugador::setR(int value)
+{
+    r = value;
+}
+
 jugador::jugador()
 {
-
+    
 }
 
 jugador::jugador(int x, int y, int r_)

@@ -12,7 +12,11 @@ MainWindow::MainWindow(QWidget *parent)
     scene->backgroundBrush();
     ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
     timer = new QTimer();
+    timer_enemigos= new QTimer();
+    timer_movimientos = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(procesos()));
+    connect(timer_enemigos,SIGNAL(timeout()),this,SLOT(generacion_enemigos()));
+    connect(timer_movimientos,SIGNAL(timeout()),this,SLOT(movimientos_enemigos()));
     QMessageBox::information(this,tr("BIENVENIDO"),tr("¡recuerda iniciar o crear sesion y elegir un mapa antes de entrar a jugar!"));
 
 
@@ -79,8 +83,9 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
     }
     if(evento->key()==Qt::Key_Escape)
     {
-
+        player_1->setR(40);
     }
+    qDebug() << player_1->getPosx() << "   " <<player_1->getPosy()<<endl;
 }
 
 void MainWindow::disparar(int posx , int posy , int posicion)
@@ -131,6 +136,8 @@ void MainWindow::procesos()
     animacion_balas(balas_left,3);
     animacion_balas(balas_righ,4);
 
+
+
 }
 
 void MainWindow::animacion_balas(QList<bala *> lista , int pos)
@@ -152,6 +159,38 @@ void MainWindow::animacion_balas(QList<bala *> lista , int pos)
         if(pos==4)
         {
             (*it)->right();
+        }
+    }
+}
+
+void MainWindow::generacion_enemigos()
+{
+        enemigos.push_back(new enemy(90,620,1));
+        scene->addItem(enemigos.back());
+        enemigos.push_back(new enemy(720,620,1));
+        scene->addItem(enemigos.back());
+        enemigos.push_back(new enemy(720,60,1));
+        scene->addItem(enemigos.back());
+        enemigos.push_back(new enemy(90,60,1));
+        scene->addItem(enemigos.back());
+
+
+}
+
+void MainWindow::movimientos_enemigos()
+{
+    QVector<jugador*>::iterator it=jugadores.begin();
+    for(QList<enemy*>::iterator itm=enemigos.begin();itm!=enemigos.end();itm++)
+    {
+        (*itm)->move_x((*it)->getPosx());
+        (*itm)->move_y((*it)->getPosy());
+        if(it==jugadores.begin())
+        {
+            it=jugadores.end();
+        }
+        if(it==jugadores.end())
+        {
+            it=jugadores.begin();
         }
     }
 }
@@ -295,15 +334,22 @@ void MainWindow::on_opcion_3_clicked()
 void MainWindow::on_iniciar_game_clicked()
 {
     player_1 = new jugador(0,0,20);
+    jugadores.push_back(player_1);
     scene->addItem(player_1);
     timer->start(10);
+    //timer_movimientos->start(8000);
+    generacion_enemigos();
+    //timer_enemigos->start(5000);
 }
 
 void MainWindow::on_pushButton_clicked()
 {
     player_2 = new jugador(50,50,20);
+    jugadores.push_back(player_2);
     scene->addItem(player_2);
     player_1 = new jugador(30,30,20);
+    jugadores.push_back(player_1);
     scene->addItem(player_1);
     timer->start(10);
+    //timer_enemigos->start(5000);
 }

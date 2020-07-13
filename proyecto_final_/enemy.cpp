@@ -10,6 +10,8 @@ enemy::enemy(int x, int y, int t)
     posx = x;
     posy = y;
     type = t;
+    definir_parametros();
+    setPos(posx,posy);
 }
 
 QRectF enemy::boundingRect() const
@@ -48,5 +50,33 @@ void enemy::definir_parametros()
         velocidad=1.5;
         vida=30;
         dano=10;
+    }
+}
+
+void enemy::move_y(int player_y)
+{
+    if(player_y>posy)
+    {
+        posy = posy+velocidad;
+        setPos(posx,posy);
+    }
+    if(player_y<posy)
+    {
+        posy= posy-velocidad;
+        setPos(posx,posy);
+    }
+}
+
+void enemy::move_x(int player_x)
+{
+    if(player_x>posx)
+    {
+        posx +=velocidad;
+        setPos(posx,posy);
+    }
+    if(player_x<posx)
+    {
+        posx = posx-velocidad;
+        setPos(posx,posy);
     }
 }

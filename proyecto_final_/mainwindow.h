@@ -16,6 +16,8 @@
 #include <QMenuBar>
 #include <pared.h>
 #include <suelo.h>
+#include <enemy.h>
+#include <QDebug>
 
 
 QT_BEGIN_NAMESPACE
@@ -40,6 +42,10 @@ private slots:
 
     void animacion_balas(QList<bala*> lista , int pos);
 
+    void generacion_enemigos();
+
+    void movimientos_enemigos();
+
     void on_verificar_inicio_clicked();
 
     void on_crear_usuario_clicked();
@@ -58,8 +64,13 @@ private:
     Ui::MainWindow *ui;    
     QGraphicsScene *scene;
     QTimer *timer;
+    QTimer *timer_enemigos;
+    QTimer *timer_movimientos;
     jugador *player_1;
     jugador *player_2;
+    QList<enemy*> enemigos;
+    QVector<jugador*> jugadores;
+    int ronda;
     bala *disparo;
     QList<bala*> balas_up;
     QList<bala*> balas_down;

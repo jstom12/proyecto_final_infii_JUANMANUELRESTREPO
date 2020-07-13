@@ -23,6 +23,7 @@ public:
     int getPosy() const;
     int getDir() const;
     void setDir(int value);
+    void setR(int value);
 };
 
 #endif // JUGADOR_H

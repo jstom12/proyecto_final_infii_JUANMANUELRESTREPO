@@ -18,10 +18,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     void definir_parametros();
-    void up();
-    void down();
-    void left();
-    void right();
+    void move_y(int player_y);
+    void move_x(int player_x);
+
 
 };
 
