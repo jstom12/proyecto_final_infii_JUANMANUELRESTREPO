@@ -34,12 +34,17 @@ void bala::down()
     setPos(posx,posy);
 }
 
+int bala::getDamage() const
+{
+    return damage;
+}
+
 bala::bala()
 {
 
 }
 
-bala::bala(int x, int y, int r_)
+bala::bala(float x, float y,float  r_)
 {
     posx = x;
     posy = y;

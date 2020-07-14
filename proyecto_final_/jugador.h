@@ -6,12 +6,12 @@
 
 class jugador : public QGraphicsItem
 {
-    int posx,posy,r;
-    int dir;
+    float posx,posy,r;
+    int dir,vida=10;
 
 public:
     jugador();
-    jugador(int x,int y, int r_);
+    jugador(float x,float y,float r_);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     void move_right();
@@ -24,6 +24,8 @@ public:
     int getDir() const;
     void setDir(int value);
     void setR(int value);
+    int getVida() const;
+    void setVida(int value);
 };
 
 #endif // JUGADOR_H

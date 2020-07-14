@@ -25,12 +25,22 @@ void jugador::setR(int value)
     r = value;
 }
 
+int jugador::getVida() const
+{
+    return vida;
+}
+
+void jugador::setVida(int value)
+{
+    vida = value;
+}
+
 jugador::jugador()
 {
     
 }
 
-jugador::jugador(int x, int y, int r_)
+jugador::jugador(float x,float y,float r_)
 {
     posx = x;
     posy = y;

@@ -7,12 +7,12 @@
 class enemy: public QGraphicsItem
 {
     int vida,dano,r=20,type;
-    int posx , posy;
+    float posx , posy;
     float velocidad;
 
 public:
     enemy();
-    enemy(int x,int y,int t);
+    enemy(float x,float y,int t);
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
@@ -22,6 +22,8 @@ public:
     void move_x(int player_x);
 
 
+    int getVida() const;
+    void setVida(int value);
 };
 
 #endif // ENEMY_H

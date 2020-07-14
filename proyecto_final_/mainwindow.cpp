@@ -88,7 +88,7 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
     qDebug() << player_1->getPosx() << "   " <<player_1->getPosy()<<endl;
 }
 
-void MainWindow::disparar(int posx , int posy , int posicion)
+void MainWindow::disparar(float posx ,float posy , int posicion)
 {
     if(posicion==1)
     {
@@ -136,7 +136,43 @@ void MainWindow::procesos()
     animacion_balas(balas_left,3);
     animacion_balas(balas_righ,4);
 
+    int aux;
+    aux = dano_enemigos(balas_up);
+    if(aux>0)
+    {
+        scene->removeItem(balas_up.at(aux));
+        balas_up.removeAt(aux);
+    }
 
+    aux = dano_enemigos(balas_down);
+    if(aux>0)
+    {
+        scene->removeItem(balas_down.at(aux));
+        balas_down.removeAt(aux);
+    }
+
+    aux = dano_enemigos(balas_left);
+    if(aux>0)
+    {
+        scene->removeItem(balas_left.at(aux));
+        balas_left.removeAt(aux);
+    }
+
+    aux = dano_enemigos(balas_righ);
+    if(aux>0)
+    {
+        scene->removeItem(balas_righ.at(aux));
+        balas_righ.removeAt(aux);
+    }
+
+    eliminar_enemigos();
+    dano_jugador();
+    aux = eliminacion_jugador();
+    if(aux>0)
+    {
+        scene->removeItem(jugadores.at(aux));
+        jugadores.removeAt(aux);
+    }
 
 }
 
@@ -193,6 +229,71 @@ void MainWindow::movimientos_enemigos()
             it=jugadores.begin();
         }
     }
+}
+
+int MainWindow::dano_enemigos(QList<bala *> balas)
+{
+    QList<enemy*>::iterator itm;
+    QList<bala*>::iterator it;
+    for(itm=enemigos.begin();itm!=enemigos.end();itm++)
+    {
+        for(it=balas.begin();it!=balas.end();it++)
+        {
+            if((*it)->collidesWithItem((*itm)))
+            {
+                int nueva_vida=(*itm)->getVida()-(*it)->getDamage();
+                (*itm)->setVida(nueva_vida);
+
+                return balas.indexOf((*it));
+            }
+        }
+    }
+    return -1;
+}
+
+void MainWindow::eliminar_enemigos()
+{
+    QList<enemy*>::iterator it;
+    int posicion_aux;
+    for(it=enemigos.begin();it!=enemigos.end();it++)
+    {
+        if((*it)->getVida()<0)
+        {
+            posicion_aux = enemigos.indexOf((*it));
+            scene->removeItem(enemigos.at(posicion_aux));
+            enemigos.removeAt(posicion_aux);
+        }
+    }
+}
+
+void MainWindow::dano_jugador()
+{
+    QVector<jugador*>::iterator it;
+    QList<enemy*>::iterator itm;
+    for(it=jugadores.begin();it!=jugadores.end();it++)
+    {
+        for(itm=enemigos.begin();itm!=enemigos.end();itm++)
+        {
+            if((*it)->collidesWithItem((*itm)))
+            {
+                int nueva_vida= (*it)->getVida()-(*itm)->getVida();
+                (*it)->setVida(nueva_vida);
+            }
+        }
+    }
+}
+
+int MainWindow::eliminacion_jugador()
+{
+    QVector<jugador*>::iterator it;
+    for(it=jugadores.begin();it!=jugadores.end();it++)
+    {
+        if((*it)->getVida()<0)
+        {
+            return jugadores.indexOf((*it));
+        }
+    }
+    return -1;
 }
 
 
@@ -333,21 +434,21 @@ void MainWindow::on_opcion_3_clicked()
 
 void MainWindow::on_iniciar_game_clicked()
 {
-    player_1 = new jugador(0,0,20);
+    player_1 = new jugador(390,290,20);
     jugadores.push_back(player_1);
     scene->addItem(player_1);
     timer->start(10);
-    //timer_movimientos->start(8000);
+    timer_movimientos->start(100);
     generacion_enemigos();
     //timer_enemigos->start(5000);
 }
 
 void MainWindow::on_pushButton_clicked()
 {
-    player_2 = new jugador(50,50,20);
+    player_2 = new jugador(350,250,20);
     jugadores.push_back(player_2);
     scene->addItem(player_2);
-    player_1 = new jugador(30,30,20);
+    player_1 = new jugador(390,290,20);
     jugadores.push_back(player_1);
     scene->addItem(player_1);
     timer->start(10);

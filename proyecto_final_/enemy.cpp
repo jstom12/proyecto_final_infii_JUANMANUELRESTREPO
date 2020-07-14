@@ -1,11 +1,21 @@
 #include "enemy.h"
 
-enemy::enemy()
+int enemy::getVida() const
 {
-
+    return vida;
 }
 
-enemy::enemy(int x, int y, int t)
+void enemy::setVida(int value)
+{
+    vida = value;
+}
+
+enemy::enemy()
+{
+    
+}
+
+enemy::enemy(float x, float y, int t)
 {
     posx = x;
     posy = y;

@@ -36,7 +36,7 @@ private slots:
 
 
 
-    void disparar(int posx, int posy, int posicion);
+    void disparar(float posx, float posy, int posicion);
 
     void procesos();
 
@@ -45,6 +45,14 @@ private slots:
     void generacion_enemigos();
 
     void movimientos_enemigos();
+
+    int dano_enemigos(QList<bala*> balas);
+
+    void eliminar_enemigos();
+
+    void dano_jugador();
+
+    int eliminacion_jugador();
 
     void on_verificar_inicio_clicked();
 

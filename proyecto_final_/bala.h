@@ -5,12 +5,13 @@
 
 class bala : public QGraphicsItem
 {
-    int posx,posy,r;
+    float posx,posy,r;
     double vel=5;
+    int damage=20;
 
 public:
     bala();
-    bala(int x, int y, int r_);
+    bala(float x, float y, float r_);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
@@ -21,6 +22,7 @@ public:
     void up();
     void down();
 
+    int getDamage() const;
 };
 
 #endif // BALA_H
