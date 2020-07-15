@@ -167,12 +167,11 @@ void MainWindow::procesos()
 
     eliminar_enemigos();
     dano_jugador();
-    aux = eliminacion_jugador();
-    if(aux>0)
-    {
-        scene->removeItem(jugadores.at(aux));
-        jugadores.removeAt(aux);
-    }
+
+    ui->label_4->setText(QVariant(player_1->getVida()).toString());
+
+    eliminacion_jugador();
+
 
 }
 
@@ -278,22 +277,58 @@ void MainWindow::dano_jugador()
             {
                 int nueva_vida= (*it)->getVida()-(*itm)->getVida();
                 (*it)->setVida(nueva_vida);
+                int posicion_aux_dano = enemigos.indexOf((*itm));
+                scene->removeItem(enemigos.at(posicion_aux_dano));
+                enemigos.removeAt(posicion_aux_dano);
+                return;
             }
         }
     }
 }
 
-int MainWindow::eliminacion_jugador()
+void MainWindow::eliminacion_jugador()
 {
     QVector<jugador*>::iterator it;
     for(it=jugadores.begin();it!=jugadores.end();it++)
     {
         if((*it)->getVida()<0)
         {
-            return jugadores.indexOf((*it));
+            int posicion_aux=jugadores.indexOf((*it));
+            scene->removeItem(jugadores.at(posicion_aux));
+            jugadores.removeAt(posicion_aux);
+            timer->stop();
+            timer_movimientos->stop();
+            return;
         }
     }
-    return -1;
+
+}
+
+void MainWindow::inercia_()
+{
+    QVector<jugador*>::iterator it_player;
+    QVector<suelo*>::iterator it_suelo;
+    QList<enemy*>::iterator it_enemy;
+    for(it_player=jugadores.begin();it_player!=jugadores.end();it_player++)
+    {
+        for(it_suelo=suelos.begin();it_suelo!=suelos.end();it_suelo++)
+        {
+            if((*it_player)->collidesWithItem((*it_suelo)))
+            {
+                (*it_player)->setResis((*it_suelo)->getResistencia());
+            }
+        }
+    }
+    for(it_enemy=enemigos.begin();it_enemy!=enemigos.end();it_enemy++)
+    {
+        for(it_suelo=suelos.begin();it_suelo!=suelos.end();it_suelo++)
+        {
+            if((*it_enemy)->collidesWithItem((*it_suelo)))
+            {
+                (*it_enemy)->setResist((*it_suelo)->getResistencia());
+            }
+        }
+    }
 }
 
 
@@ -371,16 +406,17 @@ void MainWindow::on_opcion_1_clicked()
     /*
     Suelo.
     */
-    suelo_1 = new suelo(-20,-20,250,650,2);
-    suelo_2 = new suelo(-270,-20,250,150,3);
-    suelo_3 = new suelo(-520,-20,230,650,2);
-    suelo_4 = new suelo(-270,-400,250,250,3);
-    suelo_5 = new suelo(-270,-170,250,250,1);
-    scene->addItem(suelo_1);
-    scene->addItem(suelo_2);
-    scene->addItem(suelo_3);
-    scene->addItem(suelo_4);
-    scene->addItem(suelo_5);
+    suelos.push_back(new suelo(-20,-20,250,650,2));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-270,-20,250,150,3));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-520,-20,230,650,2));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-270,-400,250,250,3));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-270,-170,250,250,1));
+    scene->addItem(suelos.back());
+
 
 }
 
@@ -396,16 +432,17 @@ void MainWindow::on_opcion_2_clicked()
     scene->addItem(pared_izq);
     scene->addItem(pared_do);
 
-    suelo_1 = new suelo(-20,-20,250,650,2);
-    suelo_2 = new suelo(-270,-20,250,150,2);
-    suelo_3 = new suelo(-520,-20,230,650,2);
-    suelo_4 = new suelo(-270,-400,250,250,2);
-    suelo_5 = new suelo(-270,-170,250,250,1);
-    scene->addItem(suelo_1);
-    scene->addItem(suelo_2);
-    scene->addItem(suelo_3);
-    scene->addItem(suelo_4);
-    scene->addItem(suelo_5);
+
+    suelos.push_back(new suelo(-20,-20,250,650,2));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-270,-20,250,150,2));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-520,-20,230,650,2));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-270,-400,250,250,2));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-270,-170,250,250,1));
+    scene->addItem(suelos.back());
 }
 
 void MainWindow::on_opcion_3_clicked()
@@ -420,16 +457,17 @@ void MainWindow::on_opcion_3_clicked()
     scene->addItem(pared_izq);
     scene->addItem(pared_do);
 
-    suelo_1 = new suelo(-20,-20,250,650,3);
-    suelo_2 = new suelo(-270,-20,250,150,3);
-    suelo_3 = new suelo(-520,-20,230,650,3);
-    suelo_4 = new suelo(-270,-400,250,250,3);
-    suelo_5 = new suelo(-270,-170,250,250,1);
-    scene->addItem(suelo_1);
-    scene->addItem(suelo_2);
-    scene->addItem(suelo_3);
-    scene->addItem(suelo_4);
-    scene->addItem(suelo_5);
+
+    suelos.push_back(new suelo(-20,-20,250,650,3));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-270,-20,250,150,3));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-520,-20,230,650,3));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-270,-400,250,250,3));
+    scene->addItem(suelos.back());
+    suelos.push_back(new suelo(-270,-170,250,250,1));
+    scene->addItem(suelos.back());
 }
 
 void MainWindow::on_iniciar_game_clicked()

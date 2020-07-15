@@ -10,6 +10,11 @@ void enemy::setVida(int value)
     vida = value;
 }
 
+void enemy::setResist(float value)
+{
+    resist = value;
+}
+
 enemy::enemy()
 {
     
@@ -67,12 +72,12 @@ void enemy::move_y(int player_y)
 {
     if(player_y>posy)
     {
-        posy = posy+velocidad;
+        posy = posy+(velocidad*resist);
         setPos(posx,posy);
     }
     if(player_y<posy)
     {
-        posy= posy-velocidad;
+        posy= posy-(velocidad*resist);
         setPos(posx,posy);
     }
 }
@@ -81,12 +86,12 @@ void enemy::move_x(int player_x)
 {
     if(player_x>posx)
     {
-        posx +=velocidad;
+        posx +=(velocidad*resist);
         setPos(posx,posy);
     }
     if(player_x<posx)
     {
-        posx = posx-velocidad;
+        posx = posx-(velocidad*resist);
         setPos(posx,posy);
     }
 }

@@ -8,7 +8,7 @@ class enemy: public QGraphicsItem
 {
     int vida,dano,r=20,type;
     float posx , posy;
-    float velocidad;
+    float velocidad,resist=1;
 
 public:
     enemy();
@@ -24,6 +24,7 @@ public:
 
     int getVida() const;
     void setVida(int value);
+    void setResist(float value);
 };
 
 #endif // ENEMY_H

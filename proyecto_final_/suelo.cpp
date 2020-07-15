@@ -1,5 +1,10 @@
 #include "suelo.h"
 
+float suelo::getResistencia() const
+{
+    return resistencia;
+}
+
 suelo::suelo()
 {
 

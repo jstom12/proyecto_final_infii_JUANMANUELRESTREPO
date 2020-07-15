@@ -52,7 +52,9 @@ private slots:
 
     void dano_jugador();
 
-    int eliminacion_jugador();
+    void eliminacion_jugador();
+
+    void inercia_();
 
     void on_verificar_inicio_clicked();
 
@@ -88,11 +90,12 @@ private:
     pared *pared_izq;
     pared *pared_up;
     pared *pared_do;
-    suelo *suelo_1;
-    suelo *suelo_2;
-    suelo *suelo_3;
-    suelo *suelo_4;
-    suelo *suelo_5;
+    //suelo *suelo_1;
+    //suelo *suelo_2;
+    //suelo *suelo_3;
+    //suelo *suelo_4;
+    //suelo *suelo_5;
+    QVector<suelo*> suelos;
 
     //int *posicion;
     void keyPressEvent(QKeyEvent *evento);

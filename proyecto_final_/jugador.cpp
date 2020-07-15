@@ -35,6 +35,11 @@ void jugador::setVida(int value)
     vida = value;
 }
 
+void jugador::setResis(float value)
+{
+    resis = value;
+}
+
 jugador::jugador()
 {
     
@@ -62,24 +67,24 @@ void jugador::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 void jugador::move_right()
 {
-    posx+= 10;
+    posx+= (10*resis);
     setPos(posx,posy);
 }
 
 void jugador::move_left()
 {
-    posx-= 10;
+    posx-= (10*resis);
     setPos(posx,posy);
 }
 
 void jugador::move_up()
 {
-    posy-=10;
+    posy-=(10*resis);
     setPos(posx,posy);
 }
 
 void jugador::move_down()
 {
-    posy+= 10;
+    posy+= (10*resis);
     setPos(posx,posy);
 }
