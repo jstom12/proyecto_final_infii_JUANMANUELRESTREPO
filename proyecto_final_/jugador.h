@@ -7,8 +7,8 @@
 class jugador : public QGraphicsItem
 {
     float posx,posy,r;
-    int dir,vida=10;
-    float resis=1;
+    int dir,vida=100, mapa=1;
+    float resis=0;
 
 public:
     jugador();
@@ -28,6 +28,9 @@ public:
     int getVida() const;
     void setVida(int value);
     void setResis(float value);
+    int getMapa() const;
+    void setMapa(int value);
+    float getResis() const;
 };
 
 #endif // JUGADOR_H

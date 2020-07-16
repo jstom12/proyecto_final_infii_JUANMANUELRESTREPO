@@ -54,7 +54,9 @@ private slots:
 
     void eliminacion_jugador();
 
-    void inercia_();
+    void inercia_(int map);
+
+    void inercia_enemigos();
 
     void on_verificar_inicio_clicked();
 

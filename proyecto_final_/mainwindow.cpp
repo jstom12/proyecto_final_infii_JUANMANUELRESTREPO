@@ -29,6 +29,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent *evento)
 {
+    inercia_(player_1->getMapa());
     if(evento->key()==Qt::Key_D)
     {
         player_1->move_right();
@@ -131,10 +132,16 @@ void MainWindow::disparar(float posx ,float posy , int posicion)
 
 void MainWindow::procesos()
 {
+
+    //inercia_enemigos();
+
     animacion_balas(balas_up,1);
     animacion_balas(balas_down,2);
     animacion_balas(balas_left,3);
     animacion_balas(balas_righ,4);
+
+    //inercia_();
+    //inercia_enemigos();
 
     int aux;
     aux = dano_enemigos(balas_up);
@@ -168,7 +175,7 @@ void MainWindow::procesos()
     eliminar_enemigos();
     dano_jugador();
 
-    ui->label_4->setText(QVariant(player_1->getVida()).toString());
+    ui->label_4->setText(QVariant(player_1->getResis()).toString());
 
     eliminacion_jugador();
 
@@ -214,6 +221,7 @@ void MainWindow::generacion_enemigos()
 
 void MainWindow::movimientos_enemigos()
 {
+    //inercia_enemigos();
     QVector<jugador*>::iterator it=jugadores.begin();
     for(QList<enemy*>::iterator itm=enemigos.begin();itm!=enemigos.end();itm++)
     {
@@ -261,6 +269,7 @@ void MainWindow::eliminar_enemigos()
             posicion_aux = enemigos.indexOf((*it));
             scene->removeItem(enemigos.at(posicion_aux));
             enemigos.removeAt(posicion_aux);
+            return;
         }
     }
 }
@@ -304,21 +313,92 @@ void MainWindow::eliminacion_jugador()
 
 }
 
-void MainWindow::inercia_()
+void MainWindow::inercia_(int map)
 {
-    QVector<jugador*>::iterator it_player;
+    QVector<jugador*>::iterator it;
+    for(it=jugadores.begin();it!=jugadores.end();it++)
+    {
+        map = (*it)->getMapa();
+        if(map==1)
+        {
+             if(((*it)->getPosx()>=290 && (*it)->getPosy()>=190) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=400))//centro
+             {
+                 (*it)->setResis(1);
+             }
+             if(((*it)->getPosx()>=40 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=250 && (*it)->getPosy()<=660))//derecha
+             {
+                 (*it)->setResis(5);
+             }
+             if(((*it)->getPosx()>=290 && (*it)->getPosy()>=440) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=660))//centroinf
+             {
+                 (*it)->setResis(5);
+             }
+             if(((*it)->getPosx()>=290 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=150))//centrosup
+             {
+                 (*it)->setResis(3);
+             }
+             if(((*it)->getPosx()>=540 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=760 && (*it)->getPosy()<=660))//izquierda
+             {
+                 (*it)->setResis(3);
+             }
+
+        }
+        if(map==2)
+        {
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=190) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=400))//centro
+            {
+
+            }
+            if(((*it)->getPosx()>=40 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=250 && (*it)->getPosy()<=660))//derecha
+            {
+
+            }
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=440) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=660))//centroinf
+            {
+
+            }
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=150))//centrosup
+            {
+
+            }
+            if(((*it)->getPosx()>=540 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=760 && (*it)->getPosy()<=660))//izquierda
+            {
+
+            }
+
+        }
+        if(map==3)
+        {
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=190) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=400))//centro
+            {
+
+            }
+            if(((*it)->getPosx()>=40 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=250 && (*it)->getPosy()<=660))//derecha
+            {
+
+            }
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=440) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=660))//centroinf
+            {
+
+            }
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=150))//centrosup
+            {
+
+            }
+            if(((*it)->getPosx()>=540 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=760 && (*it)->getPosy()<=660))//izquierda
+            {
+
+            }
+
+        }
+
+    }
+}
+
+void MainWindow::inercia_enemigos()
+{
     QVector<suelo*>::iterator it_suelo;
     QList<enemy*>::iterator it_enemy;
-    for(it_player=jugadores.begin();it_player!=jugadores.end();it_player++)
-    {
-        for(it_suelo=suelos.begin();it_suelo!=suelos.end();it_suelo++)
-        {
-            if((*it_player)->collidesWithItem((*it_suelo)))
-            {
-                (*it_player)->setResis((*it_suelo)->getResistencia());
-            }
-        }
-    }
     for(it_enemy=enemigos.begin();it_enemy!=enemigos.end();it_enemy++)
     {
         for(it_suelo=suelos.begin();it_suelo!=suelos.end();it_suelo++)
@@ -390,6 +470,7 @@ void MainWindow::on_crear_usuario_clicked()
 
 void MainWindow::on_opcion_1_clicked()
 {
+    //player_1->setMapa(1);
     /*
     Paredes.
     */
@@ -406,13 +487,13 @@ void MainWindow::on_opcion_1_clicked()
     /*
     Suelo.
     */
-    suelos.push_back(new suelo(-20,-20,250,650,2));
+    suelos.push_back(new suelo(-20,-20,250,660,3));
     scene->addItem(suelos.back());
-    suelos.push_back(new suelo(-270,-20,250,150,3));
+    suelos.push_back(new suelo(-270,-20,250,150,2));
     scene->addItem(suelos.back());
-    suelos.push_back(new suelo(-520,-20,230,650,2));
+    suelos.push_back(new suelo(-520,-20,260,660,2));
     scene->addItem(suelos.back());
-    suelos.push_back(new suelo(-270,-400,250,250,3));
+    suelos.push_back(new suelo(-270,-400,250,280,3));
     scene->addItem(suelos.back());
     suelos.push_back(new suelo(-270,-170,250,250,1));
     scene->addItem(suelos.back());
@@ -422,6 +503,7 @@ void MainWindow::on_opcion_1_clicked()
 
 void MainWindow::on_opcion_2_clicked()
 {
+    //player_1->setMapa(2);
     scene->clear();
     pared_do = new pared(0,-680,780,20);
     pared_der = new pared(-780,0,20,700);
@@ -432,14 +514,13 @@ void MainWindow::on_opcion_2_clicked()
     scene->addItem(pared_izq);
     scene->addItem(pared_do);
 
-
-    suelos.push_back(new suelo(-20,-20,250,650,2));
+    suelos.push_back(new suelo(-20,-20,250,660,2));
     scene->addItem(suelos.back());
     suelos.push_back(new suelo(-270,-20,250,150,2));
     scene->addItem(suelos.back());
-    suelos.push_back(new suelo(-520,-20,230,650,2));
+    suelos.push_back(new suelo(-520,-20,260,660,2));
     scene->addItem(suelos.back());
-    suelos.push_back(new suelo(-270,-400,250,250,2));
+    suelos.push_back(new suelo(-270,-400,250,280,2));
     scene->addItem(suelos.back());
     suelos.push_back(new suelo(-270,-170,250,250,1));
     scene->addItem(suelos.back());
@@ -447,9 +528,10 @@ void MainWindow::on_opcion_2_clicked()
 
 void MainWindow::on_opcion_3_clicked()
 {
+    //player_1->setMapa(3);
     scene->clear();
     pared_do = new pared(0,-670,780,20);
-    pared_der = new pared(-770,0,20,700);
+    pared_der = new pared(-780,0,20,700);
     pared_up = new pared(0,0,780,20);
     pared_izq = new pared(0,0,20,680);
     scene->addItem(pared_up);
@@ -458,13 +540,13 @@ void MainWindow::on_opcion_3_clicked()
     scene->addItem(pared_do);
 
 
-    suelos.push_back(new suelo(-20,-20,250,650,3));
+    suelos.push_back(new suelo(-20,-20,250,660,3));
     scene->addItem(suelos.back());
     suelos.push_back(new suelo(-270,-20,250,150,3));
     scene->addItem(suelos.back());
-    suelos.push_back(new suelo(-520,-20,230,650,3));
+    suelos.push_back(new suelo(-520,-20,260,660,3));
     scene->addItem(suelos.back());
-    suelos.push_back(new suelo(-270,-400,250,250,3));
+    suelos.push_back(new suelo(-270,-400,250,280,3));
     scene->addItem(suelos.back());
     suelos.push_back(new suelo(-270,-170,250,250,1));
     scene->addItem(suelos.back());

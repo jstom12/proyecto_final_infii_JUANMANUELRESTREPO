@@ -54,12 +54,12 @@ void suelo::definir_resistencia()
     }
     if(type==2)
     {
-        resistencia = 0.8;
+        resistencia = 3;
         return;
     }
     if(type==3)
     {
-        resistencia = 0.5;
+        resistencia = 5;
         return;
     }
 }

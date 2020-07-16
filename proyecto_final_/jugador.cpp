@@ -40,6 +40,21 @@ void jugador::setResis(float value)
     resis = value;
 }
 
+int jugador::getMapa() const
+{
+    return mapa;
+}
+
+void jugador::setMapa(int value)
+{
+    mapa = value;
+}
+
+float jugador::getResis() const
+{
+    return resis;
+}
+
 jugador::jugador()
 {
     
@@ -67,24 +82,24 @@ void jugador::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 void jugador::move_right()
 {
-    posx+= (10*resis);
+    posx+= (10-resis);
     setPos(posx,posy);
 }
 
 void jugador::move_left()
 {
-    posx-= (10*resis);
+    posx-= (10-resis);
     setPos(posx,posy);
 }
 
 void jugador::move_up()
 {
-    posy-=(10*resis);
+    posy-=(10-resis);
     setPos(posx,posy);
 }
 
 void jugador::move_down()
 {
-    posy+= (10*resis);
+    posy+= (10-resis);
     setPos(posx,posy);
 }
