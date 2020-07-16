@@ -133,15 +133,11 @@ void MainWindow::disparar(float posx ,float posy , int posicion)
 void MainWindow::procesos()
 {
 
-    //inercia_enemigos();
 
     animacion_balas(balas_up,1);
     animacion_balas(balas_down,2);
     animacion_balas(balas_left,3);
     animacion_balas(balas_righ,4);
-
-    //inercia_();
-    //inercia_enemigos();
 
     int aux;
     aux = dano_enemigos(balas_up);
@@ -175,8 +171,7 @@ void MainWindow::procesos()
     eliminar_enemigos();
     dano_jugador();
 
-    ui->label_4->setText(QVariant(player_1->getResis()).toString());
-
+    ui->label_4->setText(QVariant(ronda_aux).toString());
     eliminacion_jugador();
 
 
@@ -207,6 +202,8 @@ void MainWindow::animacion_balas(QList<bala *> lista , int pos)
 
 void MainWindow::generacion_enemigos()
 {
+    if(ronda_aux!=0)
+    {
         enemigos.push_back(new enemy(90,620,1));
         scene->addItem(enemigos.back());
         enemigos.push_back(new enemy(720,620,1));
@@ -215,13 +212,19 @@ void MainWindow::generacion_enemigos()
         scene->addItem(enemigos.back());
         enemigos.push_back(new enemy(90,60,1));
         scene->addItem(enemigos.back());
-
+        ronda_aux = ronda_aux-1;
+    }
+    if(ronda_aux==0 && enemigos.isEmpty())
+    {
+        player_1->setRonda(player_1->getRonda()+1);
+        ronda_aux = player_1->getRonda();
+    }
 
 }
 
 void MainWindow::movimientos_enemigos()
 {
-    //inercia_enemigos();
+    inercia_enemigos(player_1->getMapa());
     QVector<jugador*>::iterator it=jugadores.begin();
     for(QList<enemy*>::iterator itm=enemigos.begin();itm!=enemigos.end();itm++)
     {
@@ -395,19 +398,85 @@ void MainWindow::inercia_(int map)
     }
 }
 
-void MainWindow::inercia_enemigos()
+void MainWindow::inercia_enemigos(int map)
 {
-    QVector<suelo*>::iterator it_suelo;
-    QList<enemy*>::iterator it_enemy;
-    for(it_enemy=enemigos.begin();it_enemy!=enemigos.end();it_enemy++)
+    QList<enemy*>::iterator it;
+    for(it=enemigos.begin();it!=enemigos.end();it++)
     {
-        for(it_suelo=suelos.begin();it_suelo!=suelos.end();it_suelo++)
+        map = (*it)->getMapa();
+        if(map==1)
         {
-            if((*it_enemy)->collidesWithItem((*it_suelo)))
-            {
-                (*it_enemy)->setResist((*it_suelo)->getResistencia());
-            }
+             if(((*it)->getPosx()>=290 && (*it)->getPosy()>=190) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=400))//centro
+             {
+                 (*it)->setResist(0.5);
+             }
+             if(((*it)->getPosx()>=40 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=250 && (*it)->getPosy()<=660))//derecha
+             {
+                 (*it)->setResist(1);
+             }
+             if(((*it)->getPosx()>=290 && (*it)->getPosy()>=440) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=660))//centroinf
+             {
+                 (*it)->setResist(1);
+             }
+             if(((*it)->getPosx()>=290 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=150))//centrosup
+             {
+                 (*it)->setResist(0.8);
+             }
+             if(((*it)->getPosx()>=540 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=760 && (*it)->getPosy()<=660))//izquierda
+             {
+                 (*it)->setResist(0.8);
+             }
+
         }
+        if(map==2)
+        {
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=190) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=400))//centro
+            {
+
+            }
+            if(((*it)->getPosx()>=40 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=250 && (*it)->getPosy()<=660))//derecha
+            {
+
+            }
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=440) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=660))//centroinf
+            {
+
+            }
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=150))//centrosup
+            {
+
+            }
+            if(((*it)->getPosx()>=540 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=760 && (*it)->getPosy()<=660))//izquierda
+            {
+
+            }
+
+        }
+        if(map==3)
+        {
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=190) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=400))//centro
+            {
+
+            }
+            if(((*it)->getPosx()>=40 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=250 && (*it)->getPosy()<=660))//derecha
+            {
+
+            }
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=440) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=660))//centroinf
+            {
+
+            }
+            if(((*it)->getPosx()>=290 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=150))//centrosup
+            {
+
+            }
+            if(((*it)->getPosx()>=540 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=760 && (*it)->getPosy()<=660))//izquierda
+            {
+
+            }
+
+        }
+
     }
 }
 
@@ -552,25 +621,43 @@ void MainWindow::on_opcion_3_clicked()
     scene->addItem(suelos.back());
 }
 
+void MainWindow::iniciar_juego()
+{
+    if(multiplayer==true)
+    {
+        player_2 = new jugador(350,250,20);
+        jugadores.push_back(player_2);
+        scene->addItem(player_2);
+        player_1 = new jugador(390,290,20);
+        jugadores.push_back(player_1);
+        scene->addItem(player_1);
+        timer->start(10);
+        timer_movimientos->start(100);
+
+    }
+    if(multiplayer==false)
+    {
+        player_1 = new jugador(390,290,20);
+        jugadores.push_back(player_1);
+        scene->addItem(player_1);
+        timer->start(10);
+        timer_movimientos->start(100);
+        timer_enemigos->start(5000);
+    }
+}
+
 void MainWindow::on_iniciar_game_clicked()
 {
-    player_1 = new jugador(390,290,20);
-    jugadores.push_back(player_1);
-    scene->addItem(player_1);
-    timer->start(10);
-    timer_movimientos->start(100);
+    multiplayer=false;
+    iniciar_juego();
+    ronda_aux = player_1->getRonda();
     generacion_enemigos();
-    //timer_enemigos->start(5000);
+
 }
 
 void MainWindow::on_pushButton_clicked()
-{
-    player_2 = new jugador(350,250,20);
-    jugadores.push_back(player_2);
-    scene->addItem(player_2);
-    player_1 = new jugador(390,290,20);
-    jugadores.push_back(player_1);
-    scene->addItem(player_1);
-    timer->start(10);
-    //timer_enemigos->start(5000);
+{   
+    multiplayer = true;
+    iniciar_juego();
+    generacion_enemigos();
 }

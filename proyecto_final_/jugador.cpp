@@ -55,6 +55,16 @@ float jugador::getResis() const
     return resis;
 }
 
+int jugador::getRonda() const
+{
+    return ronda;
+}
+
+void jugador::setRonda(int value)
+{
+    ronda = value;
+}
+
 jugador::jugador()
 {
     

@@ -56,7 +56,7 @@ private slots:
 
     void inercia_(int map);
 
-    void inercia_enemigos();
+    void inercia_enemigos(int map);
 
     void on_verificar_inicio_clicked();
 
@@ -67,6 +67,8 @@ private slots:
     void on_opcion_2_clicked();
 
     void on_opcion_3_clicked();
+
+    void iniciar_juego();
 
     void on_iniciar_game_clicked();
 
@@ -82,7 +84,8 @@ private:
     jugador *player_2;
     QList<enemy*> enemigos;
     QVector<jugador*> jugadores;
-    int ronda;
+    int ronda_aux;
+    bool multiplayer;
     bala *disparo;
     QList<bala*> balas_up;
     QList<bala*> balas_down;
