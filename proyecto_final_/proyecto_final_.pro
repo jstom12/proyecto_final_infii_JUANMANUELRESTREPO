@@ -21,6 +21,7 @@ SOURCES += \
     jugador.cpp \
     main.cpp \
     mainwindow.cpp \
+    pantalla_menu.cpp \
     pared.cpp \
     suelo.cpp
 
@@ -29,11 +30,13 @@ HEADERS += \
     enemy.h \
     jugador.h \
     mainwindow.h \
+    pantalla_menu.h \
     pared.h \
     suelo.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    pantalla_menu.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

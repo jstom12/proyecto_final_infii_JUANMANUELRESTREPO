@@ -2,37 +2,31 @@
 #define PANTALLA_MENU_H
 
 #include <QMainWindow>
-#include <QGraphicsScene>
-//#include <QTimer>
-//#include <QKeyEvent>
-#include <jugador.h>
-#include <bala.h>
-#include <QDialog>
-#include <QFile>
 #include <QString>
+#include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
 
-
-
 namespace Ui {
-class Pantalla_Menu;
+class pantalla_menu;
 }
 
-class Pantalla_Menu : public QMainWindow
+class pantalla_menu : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit Pantalla_Menu(QWidget *parent = nullptr);
-    ~Pantalla_Menu();
+    explicit pantalla_menu(QWidget *parent = nullptr);
+    ~pantalla_menu();
 
 private slots:
 
 
-    void on_verifica_inicio_clicked();
+    void on_pushButton_clicked();
 
-    void on_verificar_crear_clicked();
+    void on_pushButton_2_clicked();
+
+    void on_multiplayer_clicked();
 
     void on_opcion_1_clicked();
 
@@ -42,21 +36,12 @@ private slots:
 
     void on_iniciar_juego_clicked();
 
-    void on_pushButton_clicked();
-
 private:
-    Ui::Pantalla_Menu *ui;
-    //MainWindow *pantalla_volver;
-    QGraphicsScene *scene;
-    //QTimer *timer;
-    //jugador *player_1;
-    //bala *disparo;
-    //QList<bala*> balas_up;
-    //QList<bala*> balas_down;
-    //QList<bala*> balas_righ;
-    //QList<bala*> balas_left;
-
-
+    Ui::pantalla_menu *ui;
+    QString nombre_player;
+    int mapa=1;
+    int multiplayer=1;
+    int ronde=1;
 };
 
 #endif // PANTALLA_MENU_H

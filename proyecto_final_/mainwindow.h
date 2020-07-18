@@ -18,6 +18,7 @@
 #include <suelo.h>
 #include <enemy.h>
 #include <QDebug>
+#include <pantalla_menu.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -102,7 +103,7 @@ private:
     //suelo *suelo_5;
     QVector<suelo*> suelos;
 
-    //int *posicion;
+    pantalla_menu *new_pantalla;
     void keyPressEvent(QKeyEvent *evento);
 
 

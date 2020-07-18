@@ -12,7 +12,7 @@ class jugador : public QGraphicsItem
 
 public:
     jugador();
-    jugador(float x,float y,float r_);
+    jugador(float x,float y,float r_,int ronda_);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     void move_right();

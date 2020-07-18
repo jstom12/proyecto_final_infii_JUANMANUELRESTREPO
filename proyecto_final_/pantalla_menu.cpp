@@ -1,32 +1,22 @@
 #include "pantalla_menu.h"
 #include "ui_pantalla_menu.h"
 
-Pantalla_Menu::Pantalla_Menu(QWidget *parent) :
+pantalla_menu::pantalla_menu(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::Pantalla_Menu)
+    ui(new Ui::pantalla_menu)
 {
     ui->setupUi(this);
-    //ui->graphicsView->resize(940,650);
-    scene = new QGraphicsScene(0,0,940,640);
-    ui->graphicsView->setScene(scene);
-    scene->backgroundBrush();
-    ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
-
-    //QMessageBox::information(this,tr("BIENVENIDO"),tr("¡recuerda iniciar o crear sesion y elegir un mapa antes de entrar a jugar!"));
-    //player_1 = new jugador(20,20,15);
-    //scene->addItem(player_1);
 }
 
-Pantalla_Menu::~Pantalla_Menu()
+pantalla_menu::~pantalla_menu()
 {
     delete ui;
 }
 
 
-
-void Pantalla_Menu::on_verifica_inicio_clicked()
+void pantalla_menu::on_pushButton_clicked()
 {
-    QString texto_verificar = ui->texto_inicio->text();
+    QString texto_verificar = ui->iniciar_sesion->text();
     QFile archivo("datos.txt");
     QStringList texto_separado;
     if (archivo.open(QIODevice::ReadOnly))
@@ -39,18 +29,18 @@ void Pantalla_Menu::on_verifica_inicio_clicked()
               if(texto_separado[0]==texto_verificar)
               {
                   archivo.close();
-                  this->close();
+                  nombre_player = texto_separado[0];
+                  ronde = texto_separado[1].toInt();
                   return;
               }
-
            }
            archivo.close();
     }
 }
 
-void Pantalla_Menu::on_verificar_crear_clicked()
+void pantalla_menu::on_pushButton_2_clicked()
 {
-    QString texto_verificar = ui->texto_crear->text();
+    QString texto_verificar = ui->crear_jugador->text();
     QFile archivo("datos.txt");
     QStringList texto_separado;
     if (archivo.open(QIODevice::ReadOnly))
@@ -80,27 +70,39 @@ void Pantalla_Menu::on_verificar_crear_clicked()
     }
 }
 
-void Pantalla_Menu::on_opcion_1_clicked()
+void pantalla_menu::on_multiplayer_clicked()
 {
-
+    multiplayer=2;
 }
 
-void Pantalla_Menu::on_opcion_2_clicked()
+void pantalla_menu::on_opcion_1_clicked()
 {
-
+    mapa=1;
 }
 
-void Pantalla_Menu::on_opcion_3_clicked()
+void pantalla_menu::on_opcion_2_clicked()
 {
-
+    mapa=2;
 }
 
-void Pantalla_Menu::on_iniciar_juego_clicked()
+void pantalla_menu::on_opcion_3_clicked()
 {
+    mapa=3;
+}
+
+void pantalla_menu::on_iniciar_juego_clicked()
+{
+    if(nombre_player.isEmpty())
+    {
+        QMessageBox::information(this,tr("!!!!!"),tr("¡Debes iniciar sesion primero!"));
+        return;
+    }
+    QFile en_juego("juego.txt");
+    if (en_juego.open(QIODevice::WriteOnly))
+    {
+         QTextStream in(&en_juego);
+         in << nombre_player << ";" << ronde << ";" << mapa << ";" << multiplayer;
+         en_juego.close();
+    }
     this->hide();
-}
-
-void Pantalla_Menu::on_pushButton_clicked()
-{
-
 }

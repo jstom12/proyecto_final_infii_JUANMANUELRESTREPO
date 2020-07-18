@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     //ui->graphicsView->resize(800,300);
+    new_pantalla = new pantalla_menu();
     scene = new QGraphicsScene(0,0,790,690);
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
@@ -17,7 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer,SIGNAL(timeout()),this,SLOT(procesos()));
     connect(timer_enemigos,SIGNAL(timeout()),this,SLOT(generacion_enemigos()));
     connect(timer_movimientos,SIGNAL(timeout()),this,SLOT(movimientos_enemigos()));
-    QMessageBox::information(this,tr("BIENVENIDO"),tr("¡recuerda iniciar o crear sesion y elegir un mapa antes de entrar a jugar!"));
+    QMessageBox::information(this,tr("BIENVENIDO"),tr("Recuerda presionar ESC para entrar al menu al cerrar esta pestaña"));
+
+
 
 
 }
@@ -29,7 +32,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent *evento)
 {
-    inercia_(player_1->getMapa());
+    if(evento->key()==Qt::Key_Escape)
+    {
+        new_pantalla->show();
+    }
+    //inercia_(player_1->getMapa());
     if(evento->key()==Qt::Key_D)
     {
         player_1->move_right();
@@ -82,11 +89,7 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
     {
         disparar(player_2->getPosx(),player_2->getPosy(),player_2->getDir());
     }
-    if(evento->key()==Qt::Key_Escape)
-    {
-        player_1->setR(40);
-    }
-    qDebug() << player_1->getPosx() << "   " <<player_1->getPosy()<<endl;
+
 }
 
 void MainWindow::disparar(float posx ,float posy , int posicion)
@@ -625,10 +628,10 @@ void MainWindow::iniciar_juego()
 {
     if(multiplayer==true)
     {
-        player_2 = new jugador(350,250,20);
+        player_2 = new jugador(350,250,20,1);
         jugadores.push_back(player_2);
         scene->addItem(player_2);
-        player_1 = new jugador(390,290,20);
+        player_1 = new jugador(390,290,20,1);
         jugadores.push_back(player_1);
         scene->addItem(player_1);
         timer->start(10);
@@ -637,7 +640,7 @@ void MainWindow::iniciar_juego()
     }
     if(multiplayer==false)
     {
-        player_1 = new jugador(390,290,20);
+        player_1 = new jugador(390,290,20,1);
         jugadores.push_back(player_1);
         scene->addItem(player_1);
         timer->start(10);

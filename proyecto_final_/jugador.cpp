@@ -70,11 +70,12 @@ jugador::jugador()
     
 }
 
-jugador::jugador(float x,float y,float r_)
+jugador::jugador(float x,float y,float r_,int ronda_)
 {
     posx = x;
     posy = y;
     r = r_;
+    ronda = ronda_;
     setPos(posx,posy);
 }
 
