@@ -6,8 +6,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //ui->graphicsView->resize(800,300);
-    new_pantalla = new pantalla_menu();
     scene = new QGraphicsScene(0,0,790,690);
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
@@ -15,13 +13,17 @@ MainWindow::MainWindow(QWidget *parent)
     timer = new QTimer();
     timer_enemigos= new QTimer();
     timer_movimientos = new QTimer();
+    //verificar = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(procesos()));
     connect(timer_enemigos,SIGNAL(timeout()),this,SLOT(generacion_enemigos()));
     connect(timer_movimientos,SIGNAL(timeout()),this,SLOT(movimientos_enemigos()));
+    //connect(verificar,SIGNAL(timeout()),this,SLOT(iniciar_juego()));
+
     QMessageBox::information(this,tr("BIENVENIDO"),tr("Recuerda presionar ESC para entrar al menu al cerrar esta pestaña"));
-
-
-
+    //new_pantalla = new pantalla_menu();
+    //new_pantalla->show();
+    //iniciar_juego();
+    //verificar->start(100);
 
 }
 
@@ -34,9 +36,9 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
 {
     if(evento->key()==Qt::Key_Escape)
     {
-        new_pantalla->show();
+
     }
-    //inercia_(player_1->getMapa());
+    inercia_(mapa_cho);
     if(evento->key()==Qt::Key_D)
     {
         player_1->move_right();
@@ -175,6 +177,7 @@ void MainWindow::procesos()
     dano_jugador();
 
     ui->label_4->setText(QVariant(ronda_aux).toString());
+    ui->label_5->setText(QVariant(player_1->getResis()).toString());
     eliminacion_jugador();
 
 
@@ -227,7 +230,7 @@ void MainWindow::generacion_enemigos()
 
 void MainWindow::movimientos_enemigos()
 {
-    inercia_enemigos(player_1->getMapa());
+    inercia_enemigos(mapa_cho);
     QVector<jugador*>::iterator it=jugadores.begin();
     for(QList<enemy*>::iterator itm=enemigos.begin();itm!=enemigos.end();itm++)
     {
@@ -483,6 +486,88 @@ void MainWindow::inercia_enemigos(int map)
     }
 }
 
+void MainWindow::eleccion_mapa(int ma)
+{
+    if(ma==1)
+    {
+        /*
+        Paredes.
+        */
+        scene->clear();
+        pared_do = new pared(0,-680,780,20);
+        pared_der = new pared(-780,0,20,700);
+        pared_up = new pared(0,0,780,20);
+        pared_izq = new pared(0,0,20,680);
+        scene->addItem(pared_up);
+        scene->addItem(pared_der);
+        scene->addItem(pared_izq);
+        scene->addItem(pared_do);
+
+        /*
+        Suelo.
+        */
+        suelos.push_back(new suelo(-20,-20,250,660,3));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-270,-20,250,150,2));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-520,-20,260,660,2));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-270,-400,250,280,3));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-270,-170,250,250,1));
+        scene->addItem(suelos.back());
+    }
+    if(ma==2)
+    {
+        //player_1->setMapa(2);
+        scene->clear();
+        pared_do = new pared(0,-680,780,20);
+        pared_der = new pared(-780,0,20,700);
+        pared_up = new pared(0,0,780,20);
+        pared_izq = new pared(0,0,20,680);
+        scene->addItem(pared_up);
+        scene->addItem(pared_der);
+        scene->addItem(pared_izq);
+        scene->addItem(pared_do);
+
+        suelos.push_back(new suelo(-20,-20,250,660,2));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-270,-20,250,150,2));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-520,-20,260,660,2));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-270,-400,250,280,2));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-270,-170,250,250,1));
+        scene->addItem(suelos.back());
+    }
+    if(ma==3)
+    {
+        //player_1->setMapa(3);
+        scene->clear();
+        pared_do = new pared(0,-670,780,20);
+        pared_der = new pared(-780,0,20,700);
+        pared_up = new pared(0,0,780,20);
+        pared_izq = new pared(0,0,20,680);
+        scene->addItem(pared_up);
+        scene->addItem(pared_der);
+        scene->addItem(pared_izq);
+        scene->addItem(pared_do);
+
+
+        suelos.push_back(new suelo(-20,-20,250,660,3));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-270,-20,250,150,3));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-520,-20,260,660,3));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-270,-400,250,280,3));
+        scene->addItem(suelos.back());
+        suelos.push_back(new suelo(-270,-170,250,250,1));
+        scene->addItem(suelos.back());
+    }
+}
+
 
 void MainWindow::on_verificar_inicio_clicked()
 {
@@ -499,12 +584,15 @@ void MainWindow::on_verificar_inicio_clicked()
               if(texto_separado[0]==texto_verificar)
               {
                   archivo.close();
-                  this->close();
+                  name_jugador = texto_separado[0];
+                  ronda_aux = texto_separado[1].toInt();
+                  QMessageBox::information(this,tr("!!!!"),tr("has iniciado correctamente"));
                   return;
               }
 
            }
            archivo.close();
+           QMessageBox::information(this,tr("ERROR"),tr("jugador no encontrado"));
     }
 }
 
@@ -542,10 +630,11 @@ void MainWindow::on_crear_usuario_clicked()
 
 void MainWindow::on_opcion_1_clicked()
 {
-    //player_1->setMapa(1);
-    /*
+    mapa_cho=1;
+    /*player_1->setMapa(1);
+
     Paredes.
-    */
+
     scene->clear();
     pared_do = new pared(0,-680,780,20);
     pared_der = new pared(-780,0,20,700);
@@ -556,9 +645,7 @@ void MainWindow::on_opcion_1_clicked()
     scene->addItem(pared_izq);
     scene->addItem(pared_do);
 
-    /*
-    Suelo.
-    */
+
     suelos.push_back(new suelo(-20,-20,250,660,3));
     scene->addItem(suelos.back());
     suelos.push_back(new suelo(-270,-20,250,150,2));
@@ -568,14 +655,16 @@ void MainWindow::on_opcion_1_clicked()
     suelos.push_back(new suelo(-270,-400,250,280,3));
     scene->addItem(suelos.back());
     suelos.push_back(new suelo(-270,-170,250,250,1));
-    scene->addItem(suelos.back());
+    scene->addItem(suelos.back());*/
 
 
 }
 
 void MainWindow::on_opcion_2_clicked()
 {
+    mapa_cho=2;
     //player_1->setMapa(2);
+    /*
     scene->clear();
     pared_do = new pared(0,-680,780,20);
     pared_der = new pared(-780,0,20,700);
@@ -595,12 +684,14 @@ void MainWindow::on_opcion_2_clicked()
     suelos.push_back(new suelo(-270,-400,250,280,2));
     scene->addItem(suelos.back());
     suelos.push_back(new suelo(-270,-170,250,250,1));
-    scene->addItem(suelos.back());
+    scene->addItem(suelos.back());*/
 }
 
 void MainWindow::on_opcion_3_clicked()
 {
+    mapa_cho=3;
     //player_1->setMapa(3);
+    /*
     scene->clear();
     pared_do = new pared(0,-670,780,20);
     pared_der = new pared(-780,0,20,700);
@@ -621,13 +712,63 @@ void MainWindow::on_opcion_3_clicked()
     suelos.push_back(new suelo(-270,-400,250,280,3));
     scene->addItem(suelos.back());
     suelos.push_back(new suelo(-270,-170,250,250,1));
-    scene->addItem(suelos.back());
+    scene->addItem(suelos.back());*/
 }
 
 void MainWindow::iniciar_juego()
 {
-    if(multiplayer==true)
+    /*QFile archivo("juego.txt");
+    if(archivo.open(QIODevice::ReadOnly))
     {
+        QTextStream in(&archivo);
+        while(!in.atEnd())
+        {
+            QStringList texto_separado;
+            QString line = in.readLine();
+            texto_separado = line.split(';');
+            name_jugador = texto_separado[0];
+            ronda_aux = texto_separado[1].toInt();
+            eleccion_mapa(texto_separado[2].toInt());
+            if(texto_separado[3]=='1')
+            {
+                multiplayer=false;
+                player_1 = new jugador(390,290,20,ronda_aux);
+                jugadores.push_back(player_1);
+                scene->addItem(player_1);
+                timer->start(10);
+                timer_movimientos->start(100);
+                timer_enemigos->start(5000);
+                generacion_enemigos();
+                //new_pantalla->hide();
+                return;
+            }
+            if(texto_separado[3]=='2')
+            {
+                multiplayer=true;
+                player_1 = new jugador(390,290,20,ronda_aux);
+                jugadores.push_back(player_1);
+                scene->addItem(player_1);
+                player_2 = new jugador(350,250,20,ronda_aux);
+                jugadores.push_back(player_2);
+                scene->addItem(player_2);
+                timer->start(10);
+                timer_movimientos->start(100);
+                timer_enemigos->start(5000);
+                generacion_enemigos();
+                //new_pantalla->hide();
+                return;
+            }
+    }
+        QMessageBox::information(this,tr("!!!!!"),tr("¡Debes iniciar sesion primero!"));
+        return;*/
+
+
+    //}
+
+
+    if(multiplayer==1)
+    {
+        eleccion_mapa(mapa_cho);
         player_2 = new jugador(350,250,20,1);
         jugadores.push_back(player_2);
         scene->addItem(player_2);
@@ -636,31 +777,74 @@ void MainWindow::iniciar_juego()
         scene->addItem(player_1);
         timer->start(10);
         timer_movimientos->start(100);
+        timer_enemigos->start(5000);
+        generacion_enemigos();
+        ronda_aux = 1;
+        ui->label->hide();
+        ui->label_2->hide();
+        ui->label_3->hide();
+        ui->label_4->hide();
+        ui->label_5->hide();
+        ui->opcion_1->hide();
+        ui->opcion_2->hide();
+        ui->opcion_3->hide();
+        ui->pushButton->hide();
+        ui->texto_crear->hide();
+        ui->iniciar_game->hide();
+        ui->texto_inicio->hide();
+        ui->crear_usuario->hide();
+        ui->verificar_inicio->hide();
+
 
     }
-    if(multiplayer==false)
+    if(multiplayer==2)
     {
-        player_1 = new jugador(390,290,20,1);
+        if(name_jugador.isEmpty())
+        {
+            QMessageBox::information(this,tr("!!!!!"),tr("¡Debes iniciar sesion primero!"));
+            return;
+        }
+        eleccion_mapa(mapa_cho);
+        player_1 = new jugador(390,290,20,ronda_aux);
         jugadores.push_back(player_1);
         scene->addItem(player_1);
         timer->start(10);
         timer_movimientos->start(100);
         timer_enemigos->start(5000);
+        generacion_enemigos();
+        ui->label->hide();
+        ui->label_2->hide();
+        ui->label_3->hide();
+        //ui->label_4->hide();
+        //ui->label_5->hide();
+        ui->opcion_1->hide();
+        ui->opcion_2->hide();
+        ui->opcion_3->hide();
+        ui->pushButton->hide();
+        ui->texto_crear->hide();
+        ui->iniciar_game->hide();
+        ui->texto_inicio->hide();
+        ui->crear_usuario->hide();
+        ui->verificar_inicio->hide();
+
     }
 }
 
 void MainWindow::on_iniciar_game_clicked()
 {
-    multiplayer=false;
+    multiplayer = 2;
     iniciar_juego();
-    ronda_aux = player_1->getRonda();
-    generacion_enemigos();
 
 }
 
 void MainWindow::on_pushButton_clicked()
 {   
-    multiplayer = true;
+    multiplayer = 1;
     iniciar_juego();
-    generacion_enemigos();
+}
+
+void MainWindow::on_push_menu_clicked()
+{
+
+
 }

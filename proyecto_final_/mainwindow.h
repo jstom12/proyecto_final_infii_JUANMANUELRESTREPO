@@ -59,6 +59,8 @@ private slots:
 
     void inercia_enemigos(int map);
 
+    void eleccion_mapa(int ma);
+
     void on_verificar_inicio_clicked();
 
     void on_crear_usuario_clicked();
@@ -75,18 +77,22 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_push_menu_clicked();
+
 private:
     Ui::MainWindow *ui;    
     QGraphicsScene *scene;
     QTimer *timer;
     QTimer *timer_enemigos;
     QTimer *timer_movimientos;
+    QTimer *verificar;
     jugador *player_1;
     jugador *player_2;
     QList<enemy*> enemigos;
     QVector<jugador*> jugadores;
     int ronda_aux;
-    bool multiplayer;
+    int multiplayer=0;
+    int mapa_cho=1;
     bala *disparo;
     QList<bala*> balas_up;
     QList<bala*> balas_down;
@@ -102,6 +108,7 @@ private:
     //suelo *suelo_4;
     //suelo *suelo_5;
     QVector<suelo*> suelos;
+    QString name_jugador;
 
     pantalla_menu *new_pantalla;
     void keyPressEvent(QKeyEvent *evento);

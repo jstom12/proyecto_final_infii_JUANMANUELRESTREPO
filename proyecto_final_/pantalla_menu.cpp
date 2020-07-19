@@ -31,10 +31,12 @@ void pantalla_menu::on_pushButton_clicked()
                   archivo.close();
                   nombre_player = texto_separado[0];
                   ronde = texto_separado[1].toInt();
+                  QMessageBox::information(this,tr("!!!!"),tr("has iniciado correctamente"));
                   return;
               }
            }
            archivo.close();
+           QMessageBox::information(this,tr("ERROR"),tr("jugador no encontrado"));
     }
 }
 
