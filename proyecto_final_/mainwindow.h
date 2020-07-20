@@ -43,6 +43,8 @@ private slots:
 
     void animacion_balas(QList<bala*> lista , int pos);
 
+    void choques_balas(QList<bala*> lista);
+
     void generacion_enemigos();
 
     void movimientos_enemigos();
@@ -73,6 +75,8 @@ private slots:
 
     void iniciar_juego();
 
+    void guardado();
+
     void on_iniciar_game_clicked();
 
     void on_pushButton_clicked();
@@ -93,6 +97,7 @@ private:
     int ronda_aux;
     int multiplayer=0;
     int mapa_cho=1;
+    int cont=1;
     bala *disparo;
     QList<bala*> balas_up;
     QList<bala*> balas_down;
@@ -102,6 +107,7 @@ private:
     pared *pared_izq;
     pared *pared_up;
     pared *pared_do;
+    QVector<pared*> paredes;
     //suelo *suelo_1;
     //suelo *suelo_2;
     //suelo *suelo_3;
