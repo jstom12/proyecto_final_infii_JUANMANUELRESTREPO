@@ -23,6 +23,7 @@ public:
     void down();
 
     int getDamage() const;
+    void setDamage(int value);
 };
 
 #endif // BALA_H

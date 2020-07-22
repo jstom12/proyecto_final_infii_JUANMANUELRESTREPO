@@ -39,6 +39,11 @@ int bala::getDamage() const
     return damage;
 }
 
+void bala::setDamage(int value)
+{
+    damage = value;
+}
+
 bala::bala()
 {
 

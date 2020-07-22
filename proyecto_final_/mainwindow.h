@@ -47,6 +47,8 @@ private slots:
 
     void generacion_enemigos();
 
+    bool area_jugador(jugador* player);
+
     void movimientos_enemigos();
 
     int dano_enemigos(QList<bala*> balas);
@@ -97,7 +99,9 @@ private:
     int ronda_aux;
     int multiplayer=0;
     int mapa_cho=1;
-    int cont=1;
+    int dano_balas=20;
+    float dificult=1;
+    bool in_game=false;
     bala *disparo;
     QList<bala*> balas_up;
     QList<bala*> balas_down;

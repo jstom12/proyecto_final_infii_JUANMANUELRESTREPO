@@ -64,54 +64,74 @@ void enemy::definir_parametros()
 {
     if(type==1)
     {
-        velocidad=4;
+        velocidad=6;
         vida=50;
         dano=20;
     }
     if(type==2)
     {
-        velocidad=3;
+        velocidad=5;
         vida=60;
         dano=30;
     }
     if(type==3)
     {
-        velocidad=2;
+        velocidad=4;
         vida=100;
         dano=50;
     }
     if(type==4)
     {
-        velocidad=5;
+        velocidad=7;
         vida=30;
         dano=10;
     }
 }
 
-void enemy::move_y(int player_y)
+void enemy::move_y(int player_y , float dificultad)
 {
     if(player_y>posy)
     {
-        posy = posy+(velocidad-resist);
+        posy = posy+(velocidad-(resist*dificultad));
         setPos(posx,posy);
     }
     if(player_y<posy)
     {
-        posy= posy-(velocidad-resist);
+        posy= posy-(velocidad-(resist*dificultad));
         setPos(posx,posy);
     }
 }
 
-void enemy::move_x(int player_x)
+void enemy::move_x(int player_x , float dificultad)
 {
     if(player_x>posx)
     {
-        posx +=(velocidad-resist);
+        posx +=(velocidad-(resist*dificultad));
         setPos(posx,posy);
     }
     if(player_x<posx)
     {
-        posx = posx-(velocidad-resist);
+        posx = posx-(velocidad-(resist*dificultad));
         setPos(posx,posy);
     }
+}
+
+void enemy::actualizar_aceleracion(float x, float y, int masa)
+{
+    angulo = atan2((y-posy),(x-posx));
+    //radio = pow((x-posx),2)+pow((y-posy),2);
+    ax = ax + (masa*cos(angulo));//radio;
+    ay = ay + (masa*sin(angulo));//radio;
+
+}
+
+void enemy::actualizar_posicion()
+{
+    velx = velx + ax;
+    vely = vely + ay;
+    posx = posx + velx;
+    posy = posy + vely;
+    //velx=0;
+    //vely=0;
+    setPos((posx),(posy));
 }
