@@ -10,7 +10,7 @@ class jugador : public QGraphicsItem
 {
     float posx,posy;
     int r;
-    int dir,vida=100, mapa=1, ronda=2;
+    int dir=4,vida=100, mapa=1, ronda=2;
     float resis=0;
     float masa__=1;
     float vel=50,vx,vy,angulo=50,g=9.8,delta=0.1;

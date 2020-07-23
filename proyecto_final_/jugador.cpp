@@ -160,7 +160,22 @@ void jugador::actualizar_velocidad()
 
 void jugador::actualizar_tamano(int valor)
 {
-    posx+=vx*delta;
+    if(valor==4)
+    {
+        posx+=vx*delta;
+    }
+    if(valor==3)
+    {
+        posx-=vx*delta;
+    }
+    if(valor==2)
+    {
+        posy+=vx*delta;
+    }
+    if(valor==1)
+    {
+        posy-=vx*delta;
+    }
     if(aux==true)
     {
         r = r+3;
@@ -173,8 +188,6 @@ void jugador::actualizar_tamano(int valor)
     {
         r = r-3;
     }
-
-
     setPos(posx,posy);
 
 }

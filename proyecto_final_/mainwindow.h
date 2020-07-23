@@ -18,7 +18,6 @@
 #include <suelo.h>
 #include <enemy.h>
 #include <QDebug>
-#include <pantalla_menu.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -105,6 +104,7 @@ private:
     float dificult=1;
     bool in_game=false;
     bool in_jump=false;
+    bool choose_salto_jugador;
     bala *disparo;
     QList<bala*> balas_up;
     QList<bala*> balas_down;
@@ -123,7 +123,6 @@ private:
     QVector<suelo*> suelos;
     QString name_jugador;
 
-    pantalla_menu *new_pantalla;
     void keyPressEvent(QKeyEvent *evento);
 
 

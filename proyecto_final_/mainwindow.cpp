@@ -86,7 +86,8 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
         {
             if(evento->key()==Qt::Key_Q)
             {
-                jump->start(30);
+                choose_salto_jugador=true;
+                jump->start(20);
             }
             if(evento->key()==Qt::Key_D)
             {
@@ -139,6 +140,11 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
             if(evento->key()==Qt::Key_P)
             {
                 disparar(player_2->getPosx(),player_2->getPosy(),player_2->getDir());
+            }
+            if(evento->key()==Qt::Key_U)
+            {
+                choose_salto_jugador = false;
+                jump->start(20);
             }
         }
     }
@@ -275,18 +281,43 @@ void MainWindow::animacion_balas(QList<bala *> lista , int pos)
 void MainWindow::salto_jugador()
 {
     in_jump = true;
-    player_1->actualizar_velocidad();
-    player_1->actualizar_tamano(1);
-    if(player_1->getR()<=20)
+    if(choose_salto_jugador==true)
     {
-        in_jump = false;
-        player_1->setR(20);
-        player_1->setAux(true);
-        player_1->setVel(50);
-        player_1->setAngulo(50);
-        jump->stop();
-
+        player_1->actualizar_velocidad();
+        player_1->actualizar_tamano(player_1->getDir());
+        if(player_1->getR()<=20)
+        {
+            in_jump = false;
+            player_1->setR(20);
+            player_1->setAux(true);
+            player_1->setVel(50);
+            player_1->setAngulo(50);
+            jump->stop();
+        }
+        if(player_1->getPosx()<40 || player_1->getPosx()>760 || player_1->getPosy()<40 || player_1->getPosy()>660)
+        {
+            player_1->setVida(-10);
+        }
     }
+    if(choose_salto_jugador==false)
+    {
+        player_2->actualizar_velocidad();
+        player_2->actualizar_tamano(player_2->getDir());
+        if(player_2->getR()<=20)
+        {
+            in_jump = false;
+            player_2->setR(20);
+            player_2->setAux(true);
+            player_2->setVel(50);
+            player_2->setAngulo(50);
+            jump->stop();
+        }
+        if(player_2->getPosx()<40 || player_2->getPosx()>760 || player_2->getPosy()<40 || player_2->getPosy()>660)
+        {
+            player_2->setVida(-10);
+        }
+    }
+
 }
 
 void MainWindow::choques_balas(QList<bala *> lista)
