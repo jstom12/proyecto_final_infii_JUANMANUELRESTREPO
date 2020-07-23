@@ -43,6 +43,8 @@ private slots:
 
     void animacion_balas(QList<bala*> lista , int pos);
 
+    void salto_jugador();
+
     void choques_balas(QList<bala*> lista);
 
     void generacion_enemigos();
@@ -91,7 +93,7 @@ private:
     QTimer *timer;
     QTimer *timer_enemigos;
     QTimer *timer_movimientos;
-    QTimer *verificar;
+    QTimer *jump;
     jugador *player_1;
     jugador *player_2;
     QList<enemy*> enemigos;
@@ -102,6 +104,7 @@ private:
     int dano_balas=20;
     float dificult=1;
     bool in_game=false;
+    bool in_jump=false;
     bala *disparo;
     QList<bala*> balas_up;
     QList<bala*> balas_down;

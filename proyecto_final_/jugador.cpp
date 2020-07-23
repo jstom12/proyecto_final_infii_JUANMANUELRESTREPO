@@ -65,6 +65,26 @@ void jugador::setRonda(int value)
     ronda = value;
 }
 
+float jugador::getR() const
+{
+    return r;
+}
+
+void jugador::setAux(bool value)
+{
+    aux = value;
+}
+
+void jugador::setVel(float value)
+{
+    vel = value;
+}
+
+void jugador::setAngulo(float value)
+{
+    angulo = value;
+}
+
 jugador::jugador()
 {
     
@@ -87,30 +107,74 @@ QRectF jugador::boundingRect() const
 void jugador::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(Qt::red);
-    painter->drawRect(boundingRect());
+    painter->drawEllipse(boundingRect());
 
 }
 
 void jugador::move_right()
 {
-    posx+= (10-resis);
-    setPos(posx,posy);
+    if(posx<760)
+    {
+        posx+= (10-resis);
+        setPos(posx,posy);
+    }
 }
 
 void jugador::move_left()
 {
-    posx-= (10-resis);
-    setPos(posx,posy);
+    if(posx>40)
+    {
+        posx-= (10-resis);
+        setPos(posx,posy);
+    }
 }
 
 void jugador::move_up()
 {
-    posy-=(10-resis);
-    setPos(posx,posy);
+    if(posy>40)
+    {
+        posy-=(10-resis);
+        setPos(posx,posy);
+    }
 }
 
 void jugador::move_down()
 {
-    posy+= (10-resis);
+    if(posy<660)
+    {
+        posy+= (10-resis);
+        setPos(posx,posy);
+    }
+
+}
+
+void jugador::actualizar_velocidad()
+{
+    vx=vel*cos(angulo);
+    vy=vel*sin(angulo)-g*delta;
+    vel=sqrt(vy*vy+vx*vx);
+    angulo=atan2(vy,vx);
+
+
+}
+
+void jugador::actualizar_tamano(int valor)
+{
+    posx+=vx*delta;
+    if(aux==true)
+    {
+        r = r+3;
+        if(r>=73)
+        {
+            aux=false;
+        }
+    }
+    if(aux==false)
+    {
+        r = r-3;
+    }
+
+
     setPos(posx,posy);
+
 }

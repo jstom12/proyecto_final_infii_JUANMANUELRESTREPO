@@ -13,9 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
     timer = new QTimer();
     timer_enemigos= new QTimer();
     timer_movimientos = new QTimer();
+    jump = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(procesos()));
     connect(timer_enemigos,SIGNAL(timeout()),this,SLOT(generacion_enemigos()));
     connect(timer_movimientos,SIGNAL(timeout()),this,SLOT(movimientos_enemigos()));
+    connect(jump,SIGNAL(timeout()),this,SLOT(salto_jugador()));
     QMessageBox::information(this,tr("BIENVENIDO"),tr("Recuerda crear tu personaje si es la primera vez que juegas(NOTA: PARA EL MULTIJUGADOR NO NECESITAS INICIAR NI CREAR UN JUGADOR"));
 
 
@@ -68,26 +70,13 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
                 scene->removeItem(paredes.back());
                 paredes.pop_back();
             }
-            /*while(!balas_up.isEmpty())
-            {
-                scene->removeItem(balas_up.back());
-                balas_up.pop_back();
-            }
-            while(!balas_down.isEmpty())
-            {
-                scene->removeItem(balas_down.back());
-                balas_down.pop_back();
-            }
-            while(!balas_left.isEmpty())
-            {
-                scene->removeItem(balas_left.back());
-                balas_left.back();
-            }
-            while(!balas_righ.isEmpty())
-            {
-                scene->removeItem(balas_righ.back());
-                balas_righ.back();
-            }*/
+            scene->clear();
+            balas_up.clear();
+            balas_down.clear();
+            balas_left.clear();
+            balas_righ.clear();
+            dificult=1;
+            dano_balas=20;
             ronda_aux = player_1->getRonda();
             QMessageBox::information(this,tr("!!!"),tr("ACTUALIZANDO LA DATA..."));
 
@@ -95,6 +84,10 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
         inercia_(mapa_cho);
         if(multiplayer==1 || multiplayer==2)
         {
+            if(evento->key()==Qt::Key_Q)
+            {
+                jump->start(30);
+            }
             if(evento->key()==Qt::Key_D)
             {
                 player_1->move_right();
@@ -237,7 +230,11 @@ void MainWindow::procesos()
     }
 
     eliminar_enemigos();
-    dano_jugador();
+    if(in_jump==false)
+    {
+        dano_jugador();
+    }
+
 
     ui->label_4->setText(QVariant(dano_balas).toString());
     ui->label_5->setText(QVariant(player_1->getVida()).toString());
@@ -246,7 +243,7 @@ void MainWindow::procesos()
     {
         ui->label_7->setText(QVariant(player_2->getVida()).toString());
     }
-
+    qDebug() << player_1->getR() << endl;
     eliminacion_jugador();
 
 
@@ -272,6 +269,23 @@ void MainWindow::animacion_balas(QList<bala *> lista , int pos)
         {
             (*it)->right();
         }
+    }
+}
+
+void MainWindow::salto_jugador()
+{
+    in_jump = true;
+    player_1->actualizar_velocidad();
+    player_1->actualizar_tamano(1);
+    if(player_1->getR()<=20)
+    {
+        in_jump = false;
+        player_1->setR(20);
+        player_1->setAux(true);
+        player_1->setVel(50);
+        player_1->setAngulo(50);
+        jump->stop();
+
     }
 }
 

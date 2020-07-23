@@ -2,14 +2,19 @@
 #define JUGADOR_H
 #include <QGraphicsItem>
 #include <QPainter>
+#include <math.h>
+#include <QDebug>
 
 
 class jugador : public QGraphicsItem
 {
-    float posx,posy,r;
+    float posx,posy;
+    int r;
     int dir,vida=100, mapa=1, ronda=2;
     float resis=0;
     float masa__=1;
+    float vel=50,vx,vy,angulo=50,g=9.8,delta=0.1;
+    bool aux=true;
 
 public:
     jugador();
@@ -20,6 +25,10 @@ public:
     void move_left();
     void move_up();
     void move_down();
+    void actualizar_velocidad();
+    void actualizar_tamano(int valor);
+
+
 
     int getPosx() const;
     int getPosy() const;
@@ -34,6 +43,10 @@ public:
     float getResis() const;
     int getRonda() const;
     void setRonda(int value);
+    float getR() const;
+    void setAux(bool value);
+    void setVel(float value);
+    void setAngulo(float value);
 };
 
 #endif // JUGADOR_H
