@@ -2,5 +2,6 @@
     <qresource prefix="/new/prefix1">
         <file>resources/aguacate.png</file>
         <file>resources/puas.png</file>
+        <file>resources/0a97a7a03fe6a7cee9ac254f7f81fae8.jpg</file>
     </qresource>
 </RCC>

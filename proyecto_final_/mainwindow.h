@@ -18,6 +18,7 @@
 #include <suelo.h>
 #include <enemy.h>
 #include <QDebug>
+#include <bolita.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -86,6 +87,10 @@ private slots:
 
     void on_push_menu_clicked();
 
+    void bolita_giro();
+
+    void on_pushButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;    
     QGraphicsScene *scene;
@@ -93,18 +98,22 @@ private:
     QTimer *timer_enemigos;
     QTimer *timer_movimientos;
     QTimer *jump;
+    QTimer *ruleta;
     jugador *player_1;
     jugador *player_2;
+    bolita *bolita_ruleta;
     QList<enemy*> enemigos;
     QVector<jugador*> jugadores;
     int ronda_aux;
     int multiplayer=0;
     int mapa_cho=1;
     int dano_balas=20;
+    int color_jugador=1;
     float dificult=1;
     bool in_game=false;
     bool in_jump=false;
     bool choose_salto_jugador;
+    bool definir_color=false;
     bala *disparo;
     QList<bala*> balas_up;
     QList<bala*> balas_down;

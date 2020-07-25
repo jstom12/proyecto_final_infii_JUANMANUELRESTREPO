@@ -15,10 +15,11 @@ class jugador : public QGraphicsItem
     float masa__=1;
     float vel=50,vx,vy,angulo=50,g=9.8,delta=0.1;
     bool aux=true;
+    int color;
 
 public:
     jugador();
-    jugador(float x,float y,float r_,int ronda_);
+    jugador(float x,float y,float r_,int ronda_,int color_);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     void move_right();
@@ -47,6 +48,8 @@ public:
     void setAux(bool value);
     void setVel(float value);
     void setAngulo(float value);
+    int getColor() const;
+    void setColor(int value);
 };
 
 #endif // JUGADOR_H

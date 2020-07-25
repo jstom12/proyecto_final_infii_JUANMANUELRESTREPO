@@ -85,17 +85,28 @@ void jugador::setAngulo(float value)
     angulo = value;
 }
 
+int jugador::getColor() const
+{
+    return color;
+}
+
+void jugador::setColor(int value)
+{
+    color = value;
+}
+
 jugador::jugador()
 {
     
 }
 
-jugador::jugador(float x,float y,float r_,int ronda_)
+jugador::jugador(float x,float y,float r_,int ronda_,int color_)
 {
     posx = x;
     posy = y;
     r = r_;
     ronda = ronda_;
+    color = color_;
     setPos(posx,posy);
 }
 

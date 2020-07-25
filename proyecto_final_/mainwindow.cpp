@@ -14,10 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
     timer_enemigos= new QTimer();
     timer_movimientos = new QTimer();
     jump = new QTimer();
+    ruleta = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(procesos()));
     connect(timer_enemigos,SIGNAL(timeout()),this,SLOT(generacion_enemigos()));
     connect(timer_movimientos,SIGNAL(timeout()),this,SLOT(movimientos_enemigos()));
     connect(jump,SIGNAL(timeout()),this,SLOT(salto_jugador()));
+    connect(ruleta,SIGNAL(timeout()),this,SLOT(bolita_giro()));
     QMessageBox::information(this,tr("BIENVENIDO"),tr("Recuerda crear tu personaje si es la primera vez que juegas(NOTA: PARA EL MULTIJUGADOR NO NECESITAS INICIAR NI CREAR UN JUGADOR"));
 
 
@@ -31,6 +33,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent *evento)
 {
+    if(evento->key()==Qt::Key_B)
+    {
+        bolita_ruleta->actualizar_posicion();
+        qDebug() << bolita_ruleta->getPosx() << "  " << bolita_ruleta->getPosy() << endl;
+    }
     if(in_game==true)
     {
         if(evento->key()==Qt::Key_Escape)
@@ -748,6 +755,7 @@ void MainWindow::on_verificar_inicio_clicked()
                   archivo.close();
                   name_jugador = texto_separado[0];
                   ronda_aux = texto_separado[1].toInt();
+                  color_jugador = texto_separado[2].toInt();
                   QMessageBox::information(this,tr("!!!!"),tr("has iniciado correctamente"));
                   return;
               }
@@ -783,7 +791,7 @@ void MainWindow::on_crear_usuario_clicked()
     if (archivo_2.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QTextStream in(&archivo_2);
-        in << texto_verificar << ";" << "1" << ";" <<  endl;
+        in << texto_verificar << ";" << "1" << ";" << "1" << ";" << endl;
         QMessageBox::information(this,tr("!!!!!"),tr("¡Te has registrado con exito!"));
         archivo_2.close();
         return;
@@ -810,10 +818,10 @@ void MainWindow::iniciar_juego()
     if(multiplayer==1)
     {
         eleccion_mapa(mapa_cho);
-        player_2 = new jugador(350,250,20,1);
+        player_2 = new jugador(350,250,20,1,1);
         jugadores.push_back(player_2);
         scene->addItem(player_2);
-        player_1 = new jugador(390,290,20,1);
+        player_1 = new jugador(390,290,20,1,2);
         jugadores.push_back(player_1);
         scene->addItem(player_1);
         timer->start(10);
@@ -847,7 +855,7 @@ void MainWindow::iniciar_juego()
             return;
         }
         eleccion_mapa(mapa_cho);
-        player_1 = new jugador(390,290,20,ronda_aux);
+        player_1 = new jugador(390,290,20,ronda_aux,color_jugador);
         jugadores.push_back(player_1);
         scene->addItem(player_1);
         timer->start(10);
@@ -890,7 +898,7 @@ void MainWindow::guardado()
               texto_separado = line.split(';');
               if(texto_separado[0]==name_jugador)
               {
-                  wr << name_jugador << ";" << player_1->getRonda() << ";"  << endl;
+                  wr << name_jugador << ";" << player_1->getRonda() << ";"  << player_1->getColor() << ";" << endl;
               }
               else
               {
@@ -920,5 +928,81 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_push_menu_clicked()
 {
-    timer->stop();
+
+    if(name_jugador.isEmpty())
+    {
+        QMessageBox::information(this,tr("!!!!!"),tr("¡Debes iniciar sesion primero!"));
+        return;
+    }
+    scene = new QGraphicsScene(-300,-300,605,605);
+    ui->graphicsView->resize(600,600);
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/0a97a7a03fe6a7cee9ac254f7f81fae8.jpg"));
+    bolita_ruleta = new bolita(0,0,10);
+    scene->addItem(bolita_ruleta);
+    ruleta->start(10);
+    definir_color = true;
+
+}
+
+void MainWindow::bolita_giro()
+{
+    bolita_ruleta->actualizar_posicion();
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    if(definir_color==true)
+    {
+        ruleta->stop();
+        if((bolita_ruleta->getPosx()<-32.38 && bolita_ruleta->getPosy()>-197.361) || (bolita_ruleta->getPosx()>-84.75 && bolita_ruleta->getPosy()<-181.15)) //cafe
+        {
+            color_jugador = 3;
+        }
+        if((bolita_ruleta->getPosx()<-89.25 && bolita_ruleta->getPosy()>-178.97) || (bolita_ruleta->getPosx()>-177.10 && bolita_ruleta->getPosy()<-92.91))  // rosa
+        {
+            color_jugador = 2;
+        }
+        if((bolita_ruleta->getPosx()<-179.37 && bolita_ruleta->getPosy()>-88.46) || (bolita_ruleta->getPosx()>-196.65 && bolita_ruleta->getPosy()<-36.42)) //azul cla
+        {
+            color_jugador = 1;
+        }
+        if((bolita_ruleta->getPosx()<-197.99 && bolita_ruleta->getPosy()>-28.27) || (bolita_ruleta->getPosx()>-182.87 && bolita_ruleta->getPosy()<86.973)) //amarillo
+        {
+            color_jugador = 4;
+        }
+        if((bolita_ruleta->getPosx()<-180.74 && bolita_ruleta->getPosy()>85.51) || (bolita_ruleta->getPosx()>-96.57 && bolita_ruleta->getPosy()<175.13))  //verde
+        {
+            color_jugador = 5;
+        }
+        if((bolita_ruleta->getPosx()<-89.15 && bolita_ruleta->getPosy()>179) || (bolita_ruleta->getPosx()>-32.26 && bolita_ruleta->getPosy()<197.38))   //azul oscu
+        {
+            color_jugador = 6;
+        }
+        if((bolita_ruleta->getPosx()<196.94 && bolita_ruleta->getPosy()>34.82) || (bolita_ruleta->getPosx()>180 && bolita_ruleta->getPosy()<87))    //azul cla
+        {
+            color_jugador = 1;
+        }
+        if((bolita_ruleta->getPosx()<177.85 && bolita_ruleta->getPosy()>91.46) || (bolita_ruleta->getPosx()>95.14 && bolita_ruleta->getPosy()<175.91)) //rosa
+        {
+            color_jugador = 2;
+        }
+        if((bolita_ruleta->getPosx()<90.72 && bolita_ruleta->getPosy()>178.24) || (bolita_ruleta->getPosx()>29 && bolita_ruleta->getPosy()<197.9)) // cafe
+        {
+            color_jugador = 3;
+        }
+        if((bolita_ruleta->getPosx()<84.71 && bolita_ruleta->getPosy()>-181.17) || (bolita_ruleta->getPosx()>32.33 && bolita_ruleta->getPosy()<-97.36)) //azul oscu
+        {
+            color_jugador =  6;
+        }
+        if((bolita_ruleta->getPosx()<196.64 && bolita_ruleta->getPosy()>-36.47) || (bolita_ruleta->getPosx()>179.35 && bolita_ruleta->getPosy()<-88.5)) //amarillo
+        {
+            color_jugador = 4;
+        }
+        if((bolita_ruleta->getPosx()<177 && bolita_ruleta->getPosy()>-93) || (bolita_ruleta->getPosx()>86.21 && bolita_ruleta->getPosy()<-179)) //verde
+        {
+            color_jugador = 5;
+        }
+    }
+
 }
