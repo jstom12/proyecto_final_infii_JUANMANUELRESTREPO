@@ -934,15 +934,48 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_push_menu_clicked()
 {
 
+
+
     if(name_jugador.isEmpty())
     {
         QMessageBox::information(this,tr("!!!!!"),tr("¡Debes iniciar sesion primero!"));
         return;
     }
+
+    ui->iniciar_game->hide();
+    ui->pushButton->hide();
     scene = new QGraphicsScene(-300,-300,605,605);
     ui->graphicsView->resize(600,600);
     ui->graphicsView->setScene(scene);
-    ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/0a97a7a03fe6a7cee9ac254f7f81fae8.jpg"));
+    ui->graphicsView->setBackgroundBrush(QPixmap(""));
+
+
+    cuadro_rosa = new jugador (-143,-140,50,1,2);
+    scene->addItem(cuadro_rosa);
+    cuadro_cafe = new jugador(-44,-195,50,1,3);
+    scene->addItem(cuadro_cafe);
+    cuadro_amarillo = new jugador(188,-67,50,1,4);
+    scene->addItem(cuadro_amarillo);
+    cuadro_azul_cla = new jugador(-196,-40,50,1,1);
+    scene->addItem(cuadro_azul_cla);
+    cuadro_azul_oscu = new jugador(45,-190,50,1,6);
+    scene->addItem(cuadro_azul_oscu);
+    cuadro_verde = new jugador(144,-138,50,1,5);
+    scene->addItem(cuadro_verde);
+
+    cuadro_rosa_2 = new jugador (137,146,50,1,2);
+    scene->addItem(cuadro_rosa_2);
+    cuadro_cafe_2 = new jugador(50,193,50,1,3);
+    scene->addItem(cuadro_cafe_2);
+    cuadro_amarillo_2 = new jugador(-196,40,50,1,4);
+    scene->addItem(cuadro_amarillo_2);
+    cuadro_azul_cla_2 = new jugador(197,31,50,1,1);
+    scene->addItem(cuadro_azul_cla_2);
+    cuadro_azul_oscu_2 = new jugador(-25,199,50,1,6);
+    scene->addItem(cuadro_azul_oscu_2);
+    cuadro_verde_2 = new jugador(-138,143,50,1,5);
+    scene->addItem(cuadro_verde_2);
+
     bolita_ruleta = new bolita(0,0,10);
     scene->addItem(bolita_ruleta);
     ruleta->start(10);
@@ -958,7 +991,8 @@ void MainWindow::bolita_giro()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    scene->clear();
+    ui->iniciar_game->show();
+    ui->pushButton->show();
     ui->graphicsView->resize(800,700);
     scene = new QGraphicsScene(0,0,790,690);
     ui->graphicsView->setScene(scene);
@@ -967,54 +1001,35 @@ void MainWindow::on_pushButton_2_clicked()
     if(definir_color==true)
     {
         ruleta->stop();
-        if((bolita_ruleta->getPosx()<=-32.38 && bolita_ruleta->getPosy()>=-197.361) || (bolita_ruleta->getPosx()>-84.75 && bolita_ruleta->getPosy()<-181.15)) //cafe
-        {
-            color_jugador = 3;
-        }
-        if((bolita_ruleta->getPosx()<=-89.25 && bolita_ruleta->getPosy()>=-178.97) || (bolita_ruleta->getPosx()>-177.10 && bolita_ruleta->getPosy()<-92.91))  // rosa
-        {
-            color_jugador = 2;
-        }
-        if((bolita_ruleta->getPosx()<=-179.37 && bolita_ruleta->getPosy()>=-88.46) || (bolita_ruleta->getPosx()>-196.65 && bolita_ruleta->getPosy()<-36.42)) //azul cla
+        if(bolita_ruleta->collidesWithItem(cuadro_azul_cla) || bolita_ruleta->collidesWithItem(cuadro_azul_cla_2))
         {
             color_jugador = 1;
+            return;
         }
-        if((bolita_ruleta->getPosx()<=-197.99 && bolita_ruleta->getPosy()>=-28.27) || (bolita_ruleta->getPosx()>-182.87 && bolita_ruleta->getPosy()<86.973)) //amarillo
+        if(bolita_ruleta->collidesWithItem(cuadro_rosa) || bolita_ruleta->collidesWithItem(cuadro_rosa_2))
+        {
+            color_jugador = 2;
+            return;
+        }
+        if(bolita_ruleta->collidesWithItem(cuadro_cafe) || bolita_ruleta->collidesWithItem(cuadro_cafe_2))
+        {
+            color_jugador = 3;
+            return;
+        }
+        if(bolita_ruleta->collidesWithItem(cuadro_amarillo) || bolita_ruleta->collidesWithItem(cuadro_amarillo))
         {
             color_jugador = 4;
+            return;
         }
-        if((bolita_ruleta->getPosx()<=-180.74 && bolita_ruleta->getPosy()>=85.51) || (bolita_ruleta->getPosx()>-96.57 && bolita_ruleta->getPosy()<175.13))  //verde
+        if(bolita_ruleta->collidesWithItem(cuadro_verde) || bolita_ruleta->collidesWithItem(cuadro_verde_2))
         {
             color_jugador = 5;
+            return;
         }
-        if((bolita_ruleta->getPosx()<=-89.15 && bolita_ruleta->getPosy()>=179) || (bolita_ruleta->getPosx()>-32.26 && bolita_ruleta->getPosy()<197.38))   //azul oscu
+        if(bolita_ruleta->collidesWithItem(cuadro_azul_oscu) || bolita_ruleta->collidesWithItem(cuadro_azul_oscu_2))
         {
             color_jugador = 6;
-        }
-        if((bolita_ruleta->getPosx()<=196.94 && bolita_ruleta->getPosy()>=34.82) || (bolita_ruleta->getPosx()>180 && bolita_ruleta->getPosy()<87))    //azul cla
-        {
-            color_jugador = 1;
-        }
-        if((bolita_ruleta->getPosx()<=177.85 && bolita_ruleta->getPosy()>=91.46) || (bolita_ruleta->getPosx()>95.14 && bolita_ruleta->getPosy()<175.91)) //rosa
-        {
-            color_jugador = 2;
-        }
-        if((bolita_ruleta->getPosx()<=90.72 && bolita_ruleta->getPosy()>=178.24) || (bolita_ruleta->getPosx()>29 && bolita_ruleta->getPosy()<197.9)) // cafe
-        {
-            color_jugador = 3;
-        }
-        if((bolita_ruleta->getPosx()<=84.71 && bolita_ruleta->getPosy()>=-181.17) || (bolita_ruleta->getPosx()>32.33 && bolita_ruleta->getPosy()<-97.36)) //azul oscu
-        {
-            color_jugador =  6;
-        }
-        if((bolita_ruleta->getPosx()<=196.64 && bolita_ruleta->getPosy()>=-36.47) || (bolita_ruleta->getPosx()>179.35 && bolita_ruleta->getPosy()<-88.5)) //amarillo
-        {
-            color_jugador = 4;
-        }
-        if((bolita_ruleta->getPosx()<=177 && bolita_ruleta->getPosy()>=-93) || (bolita_ruleta->getPosx()>86.21 && bolita_ruleta->getPosy()<-179)) //verde
-        {
-            color_jugador = 5;
+            return;
         }
     }
-
 }

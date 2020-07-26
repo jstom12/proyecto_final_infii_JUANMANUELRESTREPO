@@ -126,12 +126,18 @@ private:
     QVector<pared*> paredes;
     QVector<suelo*> suelos;
     QString name_jugador;
-    pared *cuadro_amarillo;
-    pared *cuadro_rosa;
-    pared *cuadro_azul_cla;
-    pared *cuadro_azul_oscu;
-    pared *cuadro_verde;
-    pared *cuadro_cafe;
+    jugador *cuadro_amarillo;
+    jugador *cuadro_rosa;
+    jugador *cuadro_azul_cla;
+    jugador *cuadro_azul_oscu;
+    jugador *cuadro_verde;
+    jugador *cuadro_cafe;
+    jugador *cuadro_amarillo_2;
+    jugador *cuadro_rosa_2;
+    jugador *cuadro_azul_cla_2;
+    jugador *cuadro_azul_oscu_2;
+    jugador *cuadro_verde_2;
+    jugador *cuadro_cafe_2;
 
     void keyPressEvent(QKeyEvent *evento);
 
