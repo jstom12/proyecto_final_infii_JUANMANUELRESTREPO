@@ -34,12 +34,12 @@ void suelo::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     }
     if(type==2)
     {
-        painter->setBrush(Qt::green);
+        painter->setBrush(QPixmap(":/new/prefix1/resources/hierba.png"));
         painter->drawRect(boundingRect());
     }
     if(type==3)
     {
-        painter->setBrush(Qt::cyan);
+        painter->setBrush(QPixmap(":/new/prefix1/resources/agua_suelo.png"));
         painter->drawRect(boundingRect());
     }
 

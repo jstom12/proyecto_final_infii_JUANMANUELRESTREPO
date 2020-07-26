@@ -117,9 +117,36 @@ QRectF jugador::boundingRect() const
 
 void jugador::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(Qt::red);
-    painter->drawEllipse(boundingRect());
-
+    if(color==1)
+    {
+        painter->setBrush(QPixmap(":/new/prefix1/resources/azul_claro.png"));
+        painter->drawEllipse(boundingRect());
+    }
+    if(color==2)
+    {
+        painter->setBrush(QPixmap(":/new/prefix1/resources/rosa.png"));
+        painter->drawEllipse(boundingRect());
+    }
+    if(color==3)
+    {
+        painter->setBrush(QPixmap(":/new/prefix1/resources/cafe.png"));
+        painter->drawEllipse(boundingRect());
+    }
+    if(color==4)
+    {
+        painter->setBrush(Qt::yellow);
+        painter->drawEllipse(boundingRect());
+    }
+    if(color==5)
+    {
+        painter->setBrush(QPixmap(":/new/prefix1/resources/verde.png"));
+        painter->drawEllipse(boundingRect());
+    }
+    if(color==6)
+    {
+        painter->setBrush(QPixmap(":/new/prefix1/resources/azul_escuro.png"));
+        painter->drawEllipse(boundingRect());
+    }
 }
 
 void jugador::move_right()

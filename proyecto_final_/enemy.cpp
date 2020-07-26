@@ -82,9 +82,9 @@ void enemy::definir_parametros()
     }
     if(type==4)
     {
-        velocidad=7;
-        vida=30;
-        dano=10;
+        velocidad=8;
+        vida=50;
+        dano=15;
     }
 }
 

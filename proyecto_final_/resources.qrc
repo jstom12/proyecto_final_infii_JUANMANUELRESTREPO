@@ -3,5 +3,12 @@
         <file>resources/aguacate.png</file>
         <file>resources/puas.png</file>
         <file>resources/0a97a7a03fe6a7cee9ac254f7f81fae8.jpg</file>
+        <file>resources/agua_suelo.png</file>
+        <file>resources/azul_claro.png</file>
+        <file>resources/azul_escuro.png</file>
+        <file>resources/cafe.png</file>
+        <file>resources/hierba.png</file>
+        <file>resources/rosa.png</file>
+        <file>resources/verde.png</file>
     </qresource>
 </RCC>

@@ -54,6 +54,8 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
             ui->pushButton->show();
             ui->opcion_2->show();
             ui->opcion_3->show();
+            ui->push_menu->show();
+            ui->pushButton_2->show();
             timer->stop();
             timer_enemigos->stop();
             timer_movimientos->stop();
@@ -249,14 +251,13 @@ void MainWindow::procesos()
     }
 
 
-    ui->label_4->setText(QVariant(dano_balas).toString());
-    ui->label_5->setText(QVariant(player_1->getVida()).toString());
-    ui->label_7->setText(QVariant(dificult).toString());
+    ui->label_4->setText(QVariant(player_1->getVida()).toString());
+    ui->label_5->setText(QVariant(player_1->getRonda()).toString());
+    ui->label_6->setText(QVariant(ronda_aux).toString());
     if(multiplayer==1)
     {
         ui->label_7->setText(QVariant(player_2->getVida()).toString());
     }
-    qDebug() << player_1->getR() << endl;
     eliminacion_jugador();
 
 
@@ -352,7 +353,7 @@ void MainWindow::generacion_enemigos()
     {
         enemigos.push_back(new enemy(90,620,1));
         scene->addItem(enemigos.back());
-        enemigos.push_back(new enemy(720,620,2));
+        enemigos.push_back(new enemy(720,620,4));
         scene->addItem(enemigos.back());
         enemigos.push_back(new enemy(720,60,3));
         scene->addItem(enemigos.back());
@@ -500,11 +501,11 @@ void MainWindow::inercia_(int map)
              }
              if(((*it)->getPosx()>=290 && (*it)->getPosy()>=440) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=660))//centroinf
              {
-                 (*it)->setResis(5);
+                 (*it)->setResis(1);
              }
              if(((*it)->getPosx()>=290 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=150))//centrosup
              {
-                 (*it)->setResis(3);
+                 (*it)->setResis(1);
              }
              if(((*it)->getPosx()>=540 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=760 && (*it)->getPosy()<=660))//izquierda
              {
@@ -580,11 +581,11 @@ void MainWindow::inercia_enemigos(int map)
              }
              if(((*it)->getPosx()>=290 && (*it)->getPosy()>=440) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=660))//centroinf
              {
-                 (*it)->setResist(1);
+                 (*it)->setResist(0.5);
              }
              if(((*it)->getPosx()>=290 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=500 && (*it)->getPosy()<=150))//centrosup
              {
-                 (*it)->setResist(0.8);
+                 (*it)->setResist(0.5);
              }
              if(((*it)->getPosx()>=540 && (*it)->getPosy()>=40) && ((*it)->getPosx()<=760 && (*it)->getPosy()<=660))//izquierda
              {
@@ -669,11 +670,11 @@ void MainWindow::eleccion_mapa(int ma)
         */
         suelos.push_back(new suelo(-20,-20,250,660,3));
         scene->addItem(suelos.back());
-        suelos.push_back(new suelo(-270,-20,250,150,2));
+        suelos.push_back(new suelo(-270,-20,250,150,1));
         scene->addItem(suelos.back());
         suelos.push_back(new suelo(-520,-20,260,660,2));
         scene->addItem(suelos.back());
-        suelos.push_back(new suelo(-270,-400,250,280,3));
+        suelos.push_back(new suelo(-270,-400,250,280,1));
         scene->addItem(suelos.back());
         suelos.push_back(new suelo(-270,-170,250,250,1));
         scene->addItem(suelos.back());
@@ -843,6 +844,8 @@ void MainWindow::iniciar_juego()
         ui->texto_inicio->hide();
         ui->crear_usuario->hide();
         ui->verificar_inicio->hide();
+        ui->push_menu->hide();
+        ui->pushButton_2->hide();
         in_game=true;
 
 
@@ -876,6 +879,8 @@ void MainWindow::iniciar_juego()
         ui->texto_inicio->hide();
         ui->crear_usuario->hide();
         ui->verificar_inicio->hide();
+        ui->push_menu->hide();
+        ui->pushButton_2->hide();
         dificult = dificult - (0.1 * player_1->getRonda());
         dano_balas = dano_balas - player_1->getRonda();
         in_game=true;
@@ -948,58 +953,65 @@ void MainWindow::on_push_menu_clicked()
 void MainWindow::bolita_giro()
 {
     bolita_ruleta->actualizar_posicion();
+
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    scene->clear();
+    ui->graphicsView->resize(800,700);
+    scene = new QGraphicsScene(0,0,790,690);
+    ui->graphicsView->setScene(scene);
+    scene->backgroundBrush();
+    ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
     if(definir_color==true)
     {
         ruleta->stop();
-        if((bolita_ruleta->getPosx()<-32.38 && bolita_ruleta->getPosy()>-197.361) || (bolita_ruleta->getPosx()>-84.75 && bolita_ruleta->getPosy()<-181.15)) //cafe
+        if((bolita_ruleta->getPosx()<=-32.38 && bolita_ruleta->getPosy()>=-197.361) || (bolita_ruleta->getPosx()>-84.75 && bolita_ruleta->getPosy()<-181.15)) //cafe
         {
             color_jugador = 3;
         }
-        if((bolita_ruleta->getPosx()<-89.25 && bolita_ruleta->getPosy()>-178.97) || (bolita_ruleta->getPosx()>-177.10 && bolita_ruleta->getPosy()<-92.91))  // rosa
+        if((bolita_ruleta->getPosx()<=-89.25 && bolita_ruleta->getPosy()>=-178.97) || (bolita_ruleta->getPosx()>-177.10 && bolita_ruleta->getPosy()<-92.91))  // rosa
         {
             color_jugador = 2;
         }
-        if((bolita_ruleta->getPosx()<-179.37 && bolita_ruleta->getPosy()>-88.46) || (bolita_ruleta->getPosx()>-196.65 && bolita_ruleta->getPosy()<-36.42)) //azul cla
+        if((bolita_ruleta->getPosx()<=-179.37 && bolita_ruleta->getPosy()>=-88.46) || (bolita_ruleta->getPosx()>-196.65 && bolita_ruleta->getPosy()<-36.42)) //azul cla
         {
             color_jugador = 1;
         }
-        if((bolita_ruleta->getPosx()<-197.99 && bolita_ruleta->getPosy()>-28.27) || (bolita_ruleta->getPosx()>-182.87 && bolita_ruleta->getPosy()<86.973)) //amarillo
+        if((bolita_ruleta->getPosx()<=-197.99 && bolita_ruleta->getPosy()>=-28.27) || (bolita_ruleta->getPosx()>-182.87 && bolita_ruleta->getPosy()<86.973)) //amarillo
         {
             color_jugador = 4;
         }
-        if((bolita_ruleta->getPosx()<-180.74 && bolita_ruleta->getPosy()>85.51) || (bolita_ruleta->getPosx()>-96.57 && bolita_ruleta->getPosy()<175.13))  //verde
+        if((bolita_ruleta->getPosx()<=-180.74 && bolita_ruleta->getPosy()>=85.51) || (bolita_ruleta->getPosx()>-96.57 && bolita_ruleta->getPosy()<175.13))  //verde
         {
             color_jugador = 5;
         }
-        if((bolita_ruleta->getPosx()<-89.15 && bolita_ruleta->getPosy()>179) || (bolita_ruleta->getPosx()>-32.26 && bolita_ruleta->getPosy()<197.38))   //azul oscu
+        if((bolita_ruleta->getPosx()<=-89.15 && bolita_ruleta->getPosy()>=179) || (bolita_ruleta->getPosx()>-32.26 && bolita_ruleta->getPosy()<197.38))   //azul oscu
         {
             color_jugador = 6;
         }
-        if((bolita_ruleta->getPosx()<196.94 && bolita_ruleta->getPosy()>34.82) || (bolita_ruleta->getPosx()>180 && bolita_ruleta->getPosy()<87))    //azul cla
+        if((bolita_ruleta->getPosx()<=196.94 && bolita_ruleta->getPosy()>=34.82) || (bolita_ruleta->getPosx()>180 && bolita_ruleta->getPosy()<87))    //azul cla
         {
             color_jugador = 1;
         }
-        if((bolita_ruleta->getPosx()<177.85 && bolita_ruleta->getPosy()>91.46) || (bolita_ruleta->getPosx()>95.14 && bolita_ruleta->getPosy()<175.91)) //rosa
+        if((bolita_ruleta->getPosx()<=177.85 && bolita_ruleta->getPosy()>=91.46) || (bolita_ruleta->getPosx()>95.14 && bolita_ruleta->getPosy()<175.91)) //rosa
         {
             color_jugador = 2;
         }
-        if((bolita_ruleta->getPosx()<90.72 && bolita_ruleta->getPosy()>178.24) || (bolita_ruleta->getPosx()>29 && bolita_ruleta->getPosy()<197.9)) // cafe
+        if((bolita_ruleta->getPosx()<=90.72 && bolita_ruleta->getPosy()>=178.24) || (bolita_ruleta->getPosx()>29 && bolita_ruleta->getPosy()<197.9)) // cafe
         {
             color_jugador = 3;
         }
-        if((bolita_ruleta->getPosx()<84.71 && bolita_ruleta->getPosy()>-181.17) || (bolita_ruleta->getPosx()>32.33 && bolita_ruleta->getPosy()<-97.36)) //azul oscu
+        if((bolita_ruleta->getPosx()<=84.71 && bolita_ruleta->getPosy()>=-181.17) || (bolita_ruleta->getPosx()>32.33 && bolita_ruleta->getPosy()<-97.36)) //azul oscu
         {
             color_jugador =  6;
         }
-        if((bolita_ruleta->getPosx()<196.64 && bolita_ruleta->getPosy()>-36.47) || (bolita_ruleta->getPosx()>179.35 && bolita_ruleta->getPosy()<-88.5)) //amarillo
+        if((bolita_ruleta->getPosx()<=196.64 && bolita_ruleta->getPosy()>=-36.47) || (bolita_ruleta->getPosx()>179.35 && bolita_ruleta->getPosy()<-88.5)) //amarillo
         {
             color_jugador = 4;
         }
-        if((bolita_ruleta->getPosx()<177 && bolita_ruleta->getPosy()>-93) || (bolita_ruleta->getPosx()>86.21 && bolita_ruleta->getPosy()<-179)) //verde
+        if((bolita_ruleta->getPosx()<=177 && bolita_ruleta->getPosy()>=-93) || (bolita_ruleta->getPosx()>86.21 && bolita_ruleta->getPosy()<-179)) //verde
         {
             color_jugador = 5;
         }
