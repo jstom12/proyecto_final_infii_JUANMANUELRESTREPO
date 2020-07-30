@@ -35,6 +35,11 @@ float enemy::getPosy() const
     return posy;
 }
 
+int enemy::getDano() const
+{
+    return dano;
+}
+
 enemy::enemy()
 {
     
@@ -62,6 +67,10 @@ void enemy::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
 void enemy::definir_parametros()
 {
+    /*
+    En esta funcion se definen los parametros del enemigo dependiendo el tipo que es, cada una
+    tiene caracteristicas propias con la intencion de darle variedad al juego.
+    */
     if(type==1)
     {
         velocidad=6;
@@ -90,6 +99,12 @@ void enemy::definir_parametros()
 
 void enemy::move_y(int player_y , float dificultad)
 {
+    /*
+    Realizar los movimientos del enemigo es sencillo, lo unico que se debe hacer es encontrar la diferencia
+    entre la posicion del enemigo y el jugador y sumarle la velocidad en la que se mueve el enemigo; esta
+    velocidad se multiplica por la variable dificultad que corresponde a la inercia del cuerpo con el suelo
+    en el que se encuentra el enemigo.
+    */
     if(player_y>posy)
     {
         posy = posy+(velocidad-(resist*dificultad));

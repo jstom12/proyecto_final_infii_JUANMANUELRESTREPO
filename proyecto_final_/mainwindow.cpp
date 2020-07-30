@@ -5,6 +5,13 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    /*
+    Al iniciar el programa, se agrega una escena para los objetos graficos, se definen los timer y se conectan a su
+    correspondiente funcion.
+
+    En esta parte, el programa va a mostrar una interfaz grafica con un menu y, al momento de hacer uso de este, procedera
+    a ejecutar las diferentes funciones.
+    */
     ui->setupUi(this);
     scene = new QGraphicsScene(0,0,790,690);
     ui->graphicsView->setScene(scene);
@@ -20,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer_movimientos,SIGNAL(timeout()),this,SLOT(movimientos_enemigos()));
     connect(jump,SIGNAL(timeout()),this,SLOT(salto_jugador()));
     connect(ruleta,SIGNAL(timeout()),this,SLOT(bolita_giro()));
-    QMessageBox::information(this,tr("BIENVENIDO"),tr("Recuerda crear tu personaje si es la primera vez que juegas(NOTA: PARA EL MULTIJUGADOR NO NECESITAS INICIAR NI CREAR UN JUGADOR"));
+    //QMessageBox::information(this,tr("BIENVENIDO"),tr("Recuerda crear tu personaje si es la primera vez que juegas(NOTA: PARA EL MULTIJUGADOR NO NECESITAS INICIAR NI CREAR UN JUGADOR"));
 
 
 
@@ -35,13 +42,52 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
 {
     if(evento->key()==Qt::Key_B)
     {
-        bolita_ruleta->actualizar_posicion();
-        qDebug() << bolita_ruleta->getPosx() << "  " << bolita_ruleta->getPosy() << endl;
+        /*
+        La tecla B permite esconder los controles de los jugadores.
+        */
+        ui->label_8->hide();
+        ui->label_9->hide();
+        ui->label_10->hide();
+        ui->label_11->hide();
+        ui->label_12->hide();
+        ui->label_13->hide();
+        ui->label_14->hide();
+        ui->label_15->hide();
+        ui->label_16->hide();
+        ui->label_17->hide();
+        ui->label_20->hide();
+    }
+    if(evento->key()==Qt::Key_V)
+    {
+        /*
+        La tecla V permite mostrar los controles de los jugadores.
+        */
+        ui->label_10->show();
+        ui->label_11->show();
+        ui->label_12->show();
+        ui->label_13->show();
+        ui->label_14->show();
+        ui->label_15->show();
+        ui->label_16->show();
+        ui->label_17->show();
+        ui->label_20->show();
     }
     if(in_game==true)
     {
+        /*
+        Esta condicion esta para que solo se pueda ejecutar los controles de jugador
+        cuando se este ejecutando el juego; De lo contrario, no se ejecutaras. Esto para evitar
+        errores durante el tiempo en el que no se este ejecutando el juego.
+        */
         if(evento->key()==Qt::Key_Escape)
         {
+            /*
+            La tecla ESC permite reiniciar la partida, es decir, si el jugador muere permite regresar al menu
+            o salirse del juego durante su ejecucion para regresar al menu.
+
+            Para esto, se eliminan todos los objetos graficos de la escena, se detienen los timer y se muestra
+            la interfez del menu.
+            */
             ui->label->show();
             ui->label_2->show();
             ui->label_3->show();
@@ -91,15 +137,35 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
 
         }
         inercia_(mapa_cho);
-        if(multiplayer==1 || multiplayer==2)
+        if(multiplayer==2 || multiplayer==1)
         {
+            /*
+            Esta funcion esta para evitar que, al presionar los controles del multijugador,
+            se genere un error en la ejecucion.
+            Cuando multiplayer es igual a 2 significa que se esta jugando en modo un jugador y solo se
+            ejecutaran los controles del jugador 1;
+            Cuando multiplayer es igual a 1 significa que se esta jugando en modo multijugador y se podran
+            ejecutar los controles de ambos jugadores sin errores.
+            */
             if(evento->key()==Qt::Key_Q)
             {
+                /*
+                La tecla Q ejecuta un movimiento parabolico que simula un salto por parte del jugador.
+                Para esto se indica que el jugador esta saltando con la variable choose_salto_jugador(
+                true para el jugador 1, false para el jugador 2)
+                y se inicia el timer que ejecuta los saltos. Dentro de la funcion se detiene el timer
+                y se cambia el valor de la variable para dejarlos a la espera de otro salto.
+                */
                 choose_salto_jugador=true;
                 jump->start(20);
             }
             if(evento->key()==Qt::Key_D)
             {
+                /*
+                Las teclas AWSD ejecutan los movimientos del jugador 1. Para realizar los saltos y disparos es necesario
+                saber a que direccion se esta mirando; Para esto se define una variable dir y recibe un valor cada que se
+                presiona una tecla, ese valor lo reconocen las funciones como la direccion hacia donde esta mirando el jugador.
+                */
                 player_1->move_right();
                 player_1->setDir(4);
             }
@@ -120,12 +186,21 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
             }
             if(evento->key()==Qt::Key_R)
             {
+                /*
+                La tecla R permite al jugador disparar; Lo que se hace aqui es llamar a la funcion disparar
+                que recibe la posicion actual del jugador junto a la direccion a la que esta mirando.
+                */
                 disparar(player_1->getPosx(),player_1->getPosy(),player_1->getDir());
             }
         }
 
         if(multiplayer==1)
         {
+            /*
+            Las teclas JIKL ejecutan los movimientos del jugador 1. Para realizar los saltos y disparos es necesario
+            saber a que direccion se esta mirando; Para esto se define una variable dir y recibe un valor cada que se
+            presiona una tecla, ese valor lo reconocen las funciones como la direccion hacia donde esta mirando el jugador.
+            */
             if(evento->key()==Qt::Key_L)
             {
                 player_2->move_right();
@@ -148,10 +223,20 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
             }
             if(evento->key()==Qt::Key_P)
             {
+                /*
+                La tecla P permite al jugador disparar; Lo que se hace aqui es llamar a la funcion disparar
+                que recibe la posicion actual del jugador junto a la direccion a la que esta mirando.
+                */
                 disparar(player_2->getPosx(),player_2->getPosy(),player_2->getDir());
             }
             if(evento->key()==Qt::Key_U)
             {
+                /*
+                La tecla U ejecuta un movimiento parabolico que simula un salto por parte del jugador.
+                Para esto se indica que el jugador esta saltando con la variable choose_salto_jugador
+                y se inicia el timer que ejecuta los saltos. Dentro de la funcion se detiene el timer
+                y se cambia el valor de la variable para dejarlos a la espera de otro salto.
+                */
                 choose_salto_jugador = false;
                 jump->start(20);
             }
@@ -162,6 +247,13 @@ void MainWindow::keyPressEvent(QKeyEvent *evento)
 
 void MainWindow::disparar(float posx ,float posy , int posicion)
 {
+    /*
+    La funcion disparar lo que hace es recibir una posicion en x, una posicion en Y y un entero
+    que corresponde a la direccion; se crea el objeto grafico que corresponde a la bala con
+    las posiciones X y Y con un tamano de radio 5 y el entero que corresponde a la direccion
+    lo que hace es, dependiendo el numero, agregarlo a una lista de balas en particular. Esto
+    ultimo necesario para el movimiento de las balas.
+     */
     if(posicion==1)
     {
         balas_up.push_back(new bala(posx,posy,5));
@@ -204,17 +296,34 @@ void MainWindow::disparar(float posx ,float posy , int posicion)
 void MainWindow::procesos()
 {
 
+    /*
+    En esta funcion se ejecutan todas esas funciones necesarias para la ejecucion del juego.
+    */
 
+
+    /*
+    Estas 4 lineas corresponden a la funcion que realiza el movimiento de las balas,
+    recibe una lista de balas y un entero que corresponde a la direccion.
+    */
     animacion_balas(balas_up,1);
     animacion_balas(balas_down,2);
     animacion_balas(balas_left,3);
     animacion_balas(balas_righ,4);
 
+    /*
+    Estas 4 lineas corresponden a la funcion que verifica si las balas estan en contacto con
+    alguna pared para así eliminar las balas de la escena. recibe una lista de balas.
+    */
     choques_balas(balas_up);
     choques_balas(balas_down);
     choques_balas(balas_left);
     choques_balas(balas_righ);
 
+    /*
+    Las siguientes lineas corresponden a el dano que realizan las balas a los enemigos.
+    Es necesario una variable entero (en este caso aux) para almacenar la posicion de la bala
+    que toca un enemigo para poder eliminarla de la escena y de su lista correspondiente.
+    */
     int aux;
     aux = dano_enemigos(balas_up);
     if(aux>0)
@@ -244,20 +353,37 @@ void MainWindow::procesos()
         balas_righ.removeAt(aux);
     }
 
+    /*
+    La siguiente funcion corresponde a la encargada para verificar que enemigo tiene una vida menor 0 igual a
+    0 para eliminarlo de la escena.
+    */
     eliminar_enemigos();
+    /*
+    Esta condicion permite que, cuando el jugador este saltando, los enemigos no puedan hacerle dano
+    (debido a que el dano de los enemigos es cuando los objetos graficos se tocan y durante el salto,
+    para hacer el efecto de saltar, el jugador crece en tamano).
+    */
     if(in_jump==false)
     {
         dano_jugador();
     }
 
 
+    /*
+    Estas lineas actualizan en la interfaz grafica los numeros que corresponden a la vida, la ronda y la oleada del jugador;
+    Si esta en modo multijugador, actualiza tambien la vida de un segundo jugador.
+    */
     ui->label_4->setText(QVariant(player_1->getVida()).toString());
     ui->label_5->setText(QVariant(player_1->getRonda()).toString());
-    ui->label_6->setText(QVariant(ronda_aux).toString());
+    ui->label_7->setText(QVariant(ronda_aux).toString());
     if(multiplayer==1)
     {
-        ui->label_7->setText(QVariant(player_2->getVida()).toString());
+        ui->label_6->setText(QVariant(player_2->getVida()).toString());
     }
+
+    /*
+    esta funcion verifica la vida del jugador para saber si fue o no eliminado.
+    */
     eliminacion_jugador();
 
 
@@ -265,6 +391,10 @@ void MainWindow::procesos()
 
 void MainWindow::animacion_balas(QList<bala *> lista , int pos)
 {
+    /*
+    esta funcion realiza los movimientos de las balas, recibe una lista y un entero que corresponde a la
+    posicion y recorre toda la lista ejecutando la funcion de movimiento que corresponden a la direccion recibida con la lista.
+    */
     for(QList<bala*>::iterator it=lista.begin();it!=lista.end();it++)
     {
         if(pos==1)
@@ -288,6 +418,16 @@ void MainWindow::animacion_balas(QList<bala *> lista , int pos)
 
 void MainWindow::salto_jugador()
 {
+    /*
+    la funcion salto_jugador se encarga de, cuando se indica que el jugador va a realizar un salto,
+    elige primero si es el jugador 1 o el jugador 2 quien va a realizar el salto (esto con la variable
+    choose_salto_jugador) y empieza a ejecutar la funcion actualizar_velocidad y actualizar_tamano en el jugador.
+    Cuando el tamano del jugador llega a ser menor o igual a 20 significa que el salto termino y, para dejarlo
+    listo para un proxima salto, se devuelven las variables utilizadas para realizar el salto a su valor predeterminado.
+
+    NOTA: Si el jugador intenta salir del mapa saltando, es decir sale de la zona de juego, se le quita toda la vida y se termina
+    el juego.
+    */
     in_jump = true;
     if(choose_salto_jugador==true)
     {
@@ -330,6 +470,12 @@ void MainWindow::salto_jugador()
 
 void MainWindow::choques_balas(QList<bala *> lista)
 {
+
+    /*
+    En esta funcion se inicializan dos variables tipo iterador, una que corresponde a la lista de balas
+    recibida y otra que corresponde a la lista de paredes; Luego se mepieza a verificar si alguna bala colisiona
+    con alguna pared para proceder a eliminar la bala de la escena. De no chocar con ninguna pared, no se hace nada con la bala.
+    */
     QList<bala*>::iterator it;
     QVector<pared*>::iterator itm;
     for(it=lista.begin();it!=lista.end();it++)
@@ -349,6 +495,14 @@ void MainWindow::choques_balas(QList<bala *> lista)
 
 void MainWindow::generacion_enemigos()
 {
+    /*
+    La funcion de generacion_enemigos es la que se encarga que generar enemigos en la escena;
+    la variable ronda_aux corresponde a la oleada en la que se encuentra el jugador y, mientras esta
+    es diferente de 0, se generan enemigos y se resta 1 a la variable. Así cuando la variable ronda_aux es igual
+    a 0 y todos los enemigos fueron eliminador, se suma 1 a la rondas del jugador, se le resta un 0.1 a la variable
+    dificult siempre que dificult sea diferente de 0 y se le resta 1 a la variable dano_balas siempre que la variable
+    sea mayor a 10. Luego se realiza un guardado de los datos del jugador.
+    */
     if(ronda_aux!=0)
     {
         enemigos.push_back(new enemy(90,620,1));
@@ -380,6 +534,10 @@ void MainWindow::generacion_enemigos()
 
 bool MainWindow::area_jugador(jugador *player)
 {
+    /*
+    Esta funcion hace recibe una variable de tipo jugador y verifica que este dentro de la zonda de juego.
+    Si lo esta, retorna un true; si no lo está retorna un false.
+    */
     if(player->getPosx()>40 && player->getPosx()<760)
     {
         return true;
@@ -393,6 +551,15 @@ bool MainWindow::area_jugador(jugador *player)
 
 void MainWindow::movimientos_enemigos()
 {
+    /*
+    La funcion movimientos_enemigos se encarga de mover a los enemigos en la direccion del jugador.
+    primera se ejecuta la funcion inercia_enemigos que recibe la variable mapa_cho que es un entero
+    que corresponde al mapa donde se juega.
+    luego se inicia un iterador de tipo jugador y se ejecuta un for que evalua todos los enemigos
+    que hay en la escena. dentro del ciclo se ejecutan dos fuciones en cada enemigos que recibe la posicion del
+    jugador y la variable dificult (esta variable lo que hace es restarle velocidad a los enemigos, cuanto
+    mas avances en el juego, menor sera el valor de dificult).
+    */
     inercia_enemigos(mapa_cho);
     QVector<jugador*>::iterator it=jugadores.begin();
     for(QList<enemy*>::iterator itm=enemigos.begin();itm!=enemigos.end();itm++)
@@ -406,6 +573,12 @@ void MainWindow::movimientos_enemigos()
 
 int MainWindow::dano_enemigos(QList<bala *> balas)
 {
+    /*
+    La funcion dano_enemigos recibe una lista de balas; luego
+    se itera en cada enemigo en la escena todas las balas para verificar si colisionan, si
+    colision se le resta el valor de la variable dano_balas a la vida del enemigos y luego
+    se retorna la posicion de la bala para proceder a elimarla en la funcion de procesos.
+    */
     QList<enemy*>::iterator itm;
     QList<bala*>::iterator it;
     for(itm=enemigos.begin();itm!=enemigos.end();itm++)
@@ -426,6 +599,13 @@ int MainWindow::dano_enemigos(QList<bala *> balas)
 
 void MainWindow::eliminar_enemigos()
 {
+    /*
+    La funcion es encargada de verificar si la vida de los enemigos es menor a 0, si esta condicion se
+    cumple entonces se elimina el enemigo de la escena y de la lista de enemigos.
+    Hay una variable posicion_aux que es un entero que recibe la posicion del enemigo que se quiere
+    eliminar para proceder a eliminarlo de la escena y de la lista sin errores. Luego se retorna la funcion
+    para dejar de ejecutarla y así evitar errores.
+    */
     QList<enemy*>::iterator it;
     int posicion_aux;
     for(it=enemigos.begin();it!=enemigos.end();it++)
@@ -442,6 +622,14 @@ void MainWindow::eliminar_enemigos()
 
 void MainWindow::dano_jugador()
 {
+    /*
+    la funcion dano_jugador es la encargada de verificar si los enemigos colisionan con el jugador
+    para efectuar una reduccion en la vida del jugador.
+    Se inicializan dos iteradores, uno tipo jugador y otro tipo enemy, luego se itera en cada jugador
+    todos los enemigos y se verifica si colisiona con alguno, si esto pasa, se inicializa la variable entera
+    nueva_vida que es el resultado de la vida actual del jugador menos el dano que realiza el enemigos.
+    luego se setea la nueva vida del jugador, se guarda la posicion del enemigo y se elimina de la escena.
+    */
     QVector<jugador*>::iterator it;
     QList<enemy*>::iterator itm;
     for(it=jugadores.begin();it!=jugadores.end();it++)
@@ -450,7 +638,7 @@ void MainWindow::dano_jugador()
         {
             if((*it)->collidesWithItem((*itm)))
             {
-                int nueva_vida= (*it)->getVida()-(*itm)->getVida();
+                int nueva_vida= (*it)->getVida()-(*itm)->getDano();
                 (*it)->setVida(nueva_vida);
                 int posicion_aux_dano = enemigos.indexOf((*itm));
                 scene->removeItem(enemigos.at(posicion_aux_dano));
@@ -463,6 +651,11 @@ void MainWindow::dano_jugador()
 
 void MainWindow::eliminacion_jugador()
 {
+    /*
+    La funcion eliminacion_jugador verifica si hay algun jugador en la lista de jugadores que
+    tengo la vida menor o igual a cero, si esto es positivo entonces se elimina el jugador de la escena
+    y, si la lista de jugadores queda vacia, se detiene los timer y la ejecucion del juego.
+    */
     QVector<jugador*>::iterator it;
     for(it=jugadores.begin();it!=jugadores.end();it++)
     {
@@ -485,6 +678,12 @@ void MainWindow::eliminacion_jugador()
 
 void MainWindow::inercia_(int map)
 {
+    /*
+    La funcion inercia_ es la encargada de definir la resistencia al movimiento que genera el mapa
+    sobre el jugador. Vemos que itera en la lista de jugadores, obtiene el mapa que eligió el jugador
+    e iniciar a definir la variable resis al jugador. Esta variable es la que limita los movimientos
+    del jugador.
+    */
     QVector<jugador*>::iterator it;
     for(it=jugadores.begin();it!=jugadores.end();it++)
     {
@@ -565,6 +764,12 @@ void MainWindow::inercia_(int map)
 
 void MainWindow::inercia_enemigos(int map)
 {
+    /*
+    La funcion inercia_enemigos funciona de manera similar a la funcion inercia_ pero esta es disenada
+    para los enemigos. dado a que los movimientos de los enemigos son un poco mas limitados que los del jugador, los
+    valores de la inercia son equivalentes a los de la inercia del jugador pero en cifras menores.
+    Otra vez, la funcion itera en la lista de enemigos y define la variable resist de cada uno.
+    */
     QList<enemy*>::iterator it;
     for(it=enemigos.begin();it!=enemigos.end();it++)
     {
@@ -646,6 +851,12 @@ void MainWindow::inercia_enemigos(int map)
 
 void MainWindow::eleccion_mapa(int ma)
 {
+    /*
+    la funcion eleccion_mapa permite graficar diferentes mapas que selecciona el jugador en la
+    interfez grafica.
+    Recibe un entero que corresponde al mapa a graficar. Luego, entra en una condicion
+    y anade todos los objetos a la escena.
+    */
     if(ma==1)
     {
         /*
@@ -741,11 +952,24 @@ void MainWindow::eleccion_mapa(int ma)
 
 void MainWindow::on_verificar_inicio_clicked()
 {
+    /*
+    Esta funcion se activa cuando el jugador presiona el boton para iniciar sesion;
+    En esta se recibe el nombre del jugador, se abre el archivo de texto donde se
+    almacenan los datos de los jugadores y se verifica si existe el jugador, es decir, si
+    esta registrado. Si esto ultimo se da entonces se recolectan los datos del jugador
+    (nombre, ronda, color) y se guardan en el programa para proceder a iniciar el juego.
+    */
     QString texto_verificar = ui->texto_inicio->text();
     QFile archivo("datos.txt");
     QStringList texto_separado;
     if (archivo.open(QIODevice::ReadOnly))
     {
+        /*
+        Aqui se recorre linea por linea el archivo datos.txt y se procede a separar
+        las lineas cada que se encuentre un ";" y se almacena la linea separada en una
+        lista de strings, luego se verifica que la primera posicion de la lista (que corresponde
+        al nombre del jugador) sea igual al nombre ingresado para proceder a obtener los datos.
+        */
         QTextStream in(&archivo);
            while (!in.atEnd())
            {
@@ -762,6 +986,9 @@ void MainWindow::on_verificar_inicio_clicked()
               }
 
            }
+           /*
+            De no coincidir ningun dato, se mostrara en pantalla que el jugador no fue encontrado.
+            */
            archivo.close();
            QMessageBox::information(this,tr("ERROR"),tr("jugador no encontrado"));
     }
@@ -769,6 +996,12 @@ void MainWindow::on_verificar_inicio_clicked()
 
 void MainWindow::on_crear_usuario_clicked()
 {
+    /*
+    Esta funcion es llamada cuando el usuario presiona el boton para crear un usuario.
+    Primero se recibe el nombre a crear y se verifica que no este registrado.
+    Si el jugador ya se encuentra en los datos entonces se mostrara un mensaje que muestre esto.
+    El sistema que se usa es el mismo para verificar el inicio de un jugador.
+    */
     QString texto_verificar = ui->texto_crear->text();
     QFile archivo("datos.txt");
     QStringList texto_separado;
@@ -791,6 +1024,10 @@ void MainWindow::on_crear_usuario_clicked()
     QFile archivo_2("datos.txt");
     if (archivo_2.open(QIODevice::WriteOnly | QIODevice::Append))
     {
+        /*
+        Luego, si el jugador no esta en los datos, se vuelve a abrir el archivo en modo
+        escritura y se anade el nombre del jugador junto a unos datos predeterminados.
+        */
         QTextStream in(&archivo_2);
         in << texto_verificar << ";" << "1" << ";" << "1" << ";" << endl;
         QMessageBox::information(this,tr("!!!!!"),tr("¡Te has registrado con exito!"));
@@ -801,21 +1038,33 @@ void MainWindow::on_crear_usuario_clicked()
 
 void MainWindow::on_opcion_1_clicked()
 {
+    // al presionar el boton del mapa, se define la variable mapa_cho como 1 que indica el mapa a crear.
     mapa_cho=1;
 }
 
 void MainWindow::on_opcion_2_clicked()
 {
+    // al presionar el boton del mapa, se define la variable mapa_cho como 2 que indica el mapa a crear.
     mapa_cho=2;
 }
 
 void MainWindow::on_opcion_3_clicked()
 {
+    // al presionar el boton del mapa, se define la variable mapa_cho como 3 que indica el mapa a crear.
     mapa_cho=3;
 }
 
 void MainWindow::iniciar_juego()
 {
+    /*
+    Esta funcion es la que se encarga de poner en marcha el juego.
+    Depentiendo de si se elije la opcion de un jugador o multijugador se inician igual
+    con la unica diferencia que en el multijugador no es necesario iniciar sesion y se
+    agrega el segundo jugador a la escena.
+
+    De resto, se procede a llamar la funcion eleccion_mapa para que grafique el mapa, se crean los jugadores,
+    se inician los timer, se generan los enemigos y se oculta el menu de la interfaz grafica.
+    */
     if(multiplayer==1)
     {
         eleccion_mapa(mapa_cho);
@@ -854,6 +1103,10 @@ void MainWindow::iniciar_juego()
     {
         if(name_jugador.isEmpty())
         {
+            /*
+            Para la opcion de un jugador se anade esa condicion que, si el usuario no ha iniciado sesion,
+            no le permite iniciar el juego y le muestra un mensaje diciendole eso.
+            */
             QMessageBox::information(this,tr("!!!!!"),tr("¡Debes iniciar sesion primero!"));
             return;
         }
@@ -890,6 +1143,14 @@ void MainWindow::iniciar_juego()
 
 void MainWindow::guardado()
 {
+    /*
+    La funcion de guardado permite actualizar los datos del jugador,
+    esto abriendo el archivo de datos.txt en modo lectura y un nuevo archivo
+    en modo escritura.
+    se empieza a copiar los datos de un archivo a otro y la linea que corresponde al jugador
+    es reemplazada por los nuevos datos. luego se elimina el archivo con los datos desactualizados
+    y se cambio el nombre de los neuvos archivos a datos.txt
+    */
     QFile archivo("datos.txt");
     QFile new_archivo("datosnew.txt");
     QStringList texto_separado;
@@ -920,6 +1181,11 @@ void MainWindow::guardado()
 
 void MainWindow::on_iniciar_game_clicked()
 {
+    /*
+    esta funcion es llamada cuando se presiona el boton para iniciar el juegos, en esta se llama
+    a la funcion iniciar_juego y se define la variable multiplayer igual a 2 indicando que
+    se selecciono el modo de un jugador.
+    */
     multiplayer = 2;
     iniciar_juego();
 
@@ -927,15 +1193,25 @@ void MainWindow::on_iniciar_game_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {   
+    /*
+    Esta funcion es llamada cuando se presiona el boton de multiplayer y lo que hace es llamar a la funcion
+    de iniciar_juego y definir la variable multiplayer igual a 1 indicando que el juego se va a ejecutar en modo
+    multijugador.
+    */
     multiplayer = 1;
     iniciar_juego();
 }
 
 void MainWindow::on_push_menu_clicked()
 {
-
-
-
+    /*
+    Esta funcion es llamada al presionar el boton ruleta y lo que hace es mostrar la ruleta para que el jugador
+    pueda cambiar el color de su personaje.
+    Para esto es necesario cambiar la escena y esconder los botones que permiten iniciar el juego para evitar errores,
+    luego se crean los espacios de colores y se agregan a la escena.
+    Se inicia el timer ruleta que permite a la bolita de la ruleta girar al rededor y define la variable
+    definir_color como true.
+    */
     if(name_jugador.isEmpty())
     {
         QMessageBox::information(this,tr("!!!!!"),tr("¡Debes iniciar sesion primero!"));
@@ -985,12 +1261,19 @@ void MainWindow::on_push_menu_clicked()
 
 void MainWindow::bolita_giro()
 {
+    /*
+    Esta funcion esta conectada al timer ruleta y lo que hace es actualizar la posicion de la bolita para
+    que realice un movimiento circular.
+    */
     bolita_ruleta->actualizar_posicion();
-
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    /*
+    Esta funcion es llamada cuando se presiona el boton stop y lo que hace es detener la ruleta.
+    volver la escena a su estado original y definir el color del jugador.
+    */
     ui->iniciar_game->show();
     ui->pushButton->show();
     ui->graphicsView->resize(800,700);

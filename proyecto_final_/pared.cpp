@@ -15,6 +15,9 @@ pared::pared(int x, int y, int a, int l)
 
 QRectF pared::boundingRect() const
 {
+    /*
+    Se utilizar las variables de la clase para crear un rectangulo en la posicion x,y con un ancho y un largo.
+    */
     return QRect(-posx,-posy,anc,large);
 }
 

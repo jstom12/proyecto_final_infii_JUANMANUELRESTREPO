@@ -7,6 +7,15 @@
 
 class enemy: public QGraphicsItem
 {
+    /*
+    la clase enemigo tiene los parametros vida,dano,resist y velocidad destinados para la jugabilidad, es decir,
+    son parametros que se utilizan para hacer funcionar de forma correcta el modo de juego.
+    Hay varios tipos de enemigos por lo cual no se definen los parametros directamente sino que se invoca una funcion
+    en el constructor y esta define los parametros del enemigo dependiendo que tipo es.
+
+    posx,posy y r son parametros para graficar en la escena el enemigo.
+    */
+
     int vida,dano,r=20,type,mapa;
     float posx , posy;
     float velocidad,resist=1;
@@ -35,6 +44,7 @@ public:
     float getPosy() const;
     float getDificultad() const;
     void setDificultad(float value);
+    int getDano() const;
 };
 
 #endif // ENEMY_H

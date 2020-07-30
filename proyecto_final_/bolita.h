@@ -9,10 +9,16 @@
 
 class bolita : public QGraphicsItem
 {
+    /*
+    La clase bolita se utiliza para graficar el objeto que gira en la ruleta,
+    para realizar el movimiento de giro (MOVIMIENTO CIRCULAR UNIFORME) es necesario utilizar
+    los parametros de: radio,angulo(inicial),angulo2(contrario al centro),tiempo(delta),vel(velocidad del cuerpo).
+
+    El resto de parametros se utilizan para graficar el objeto. (posx,posy,r)
+    */
+
     float posx,posy,radio,angulo=0,delta=0.1,vel=50,angulo2;
     int r=10;
-
-
 
 public:
     bolita();

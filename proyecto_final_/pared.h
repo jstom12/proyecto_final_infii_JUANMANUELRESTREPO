@@ -6,6 +6,10 @@
 
 class pared: public QGraphicsItem
 {
+    /*
+    Esta clase grafica las paredes del juego, las variables que se utilizar son unicamente para
+    graficar la clase como objeto grafico.
+    */
     int posx,posy,anc,large;
 
 public:

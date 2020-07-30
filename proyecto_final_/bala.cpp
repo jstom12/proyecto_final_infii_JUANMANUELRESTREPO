@@ -1,5 +1,14 @@
 #include "bala.h"
 
+
+/*
+Para realizar los movimientos estan 4 funciones que corresponden a cada lado en el que puede viajar el disparo;
+todos funcionan de la misma manera, se le suma la velocidad a la posicion actual y se le resta esa misma posicion
+pero sin la suma de la velocidad y el resultado se suma a la posicion actual, asi se recrea un trayecto corto
+por parte de la bala.
+
+
+*/
 void bala::setPosx(int value)
 {
     posx = value;

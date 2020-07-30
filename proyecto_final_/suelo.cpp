@@ -27,6 +27,10 @@ QRectF suelo::boundingRect() const
 
 void suelo::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    /*
+    Vemos que, para pintar el objeto grafico, es necesario la variable type que nos indica de que tipo es el suelo
+    a graficarse; dependiendo el tipo el color sera diferente.
+    */
     if(type==1)
     {
         painter->setBrush(Qt::lightGray);

@@ -6,6 +6,10 @@
 
 class suelo: public QGraphicsItem
 {
+    /*
+    La clase suelo tiene las variables posx,posy,w,h exclusivas para la grafica del suelo y las
+    variables type,resistencia necesarias para la jugabilidad.
+    */
     int type,posx,posy,w,h;
     float resistencia;
 

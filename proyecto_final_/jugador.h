@@ -8,6 +8,10 @@
 
 class jugador : public QGraphicsItem
 {
+    /*
+    Los parametros dir,vida,mapa,ronda,resis,color son los necesarios para la correcta jugabilidad del jugador;
+    Los parametros posx,posy y r son los necesarios para mostrar el jugador en la escena.
+    */
     float posx,posy;
     int r;
     int dir=4,vida=100, mapa=1, ronda=2;

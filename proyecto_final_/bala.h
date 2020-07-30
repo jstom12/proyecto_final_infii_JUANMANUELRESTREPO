@@ -5,6 +5,11 @@
 
 class bala : public QGraphicsItem
 {
+    /*
+    La clase bala tiene los parametros de posx y posy para su ubicacion en la escena; r para su tamano grafico en esta misma;
+    Vel para definir la velocidad en la que viajara el cuerpo; damage para definir cuanto quitara al impactar.
+
+    */
     float posx,posy,r;
     double vel=5;
     int damage=20;

@@ -92,28 +92,28 @@ private slots:
     void on_pushButton_2_clicked();
 
 private:
+    /*
+    Parametros necesarios para la correcta ejecución del juego.
+    */
     Ui::MainWindow *ui;    
     QGraphicsScene *scene;
+    /*
+    Timers para la ejecucion del juego.
+    */
     QTimer *timer;
     QTimer *timer_enemigos;
     QTimer *timer_movimientos;
     QTimer *jump;
     QTimer *ruleta;
+
+    /*
+    variables de los objetos graficos.
+    */
     jugador *player_1;
     jugador *player_2;
     bolita *bolita_ruleta;
     QList<enemy*> enemigos;
     QVector<jugador*> jugadores;
-    int ronda_aux;
-    int multiplayer=0;
-    int mapa_cho=1;
-    int dano_balas=20;
-    int color_jugador=1;
-    float dificult=1;
-    bool in_game=false;
-    bool in_jump=false;
-    bool choose_salto_jugador;
-    bool definir_color=false;
     bala *disparo;
     QList<bala*> balas_up;
     QList<bala*> balas_down;
@@ -138,6 +138,21 @@ private:
     jugador *cuadro_azul_oscu_2;
     jugador *cuadro_verde_2;
     jugador *cuadro_cafe_2;
+
+    /*
+    Auxiliares para la correcta ejecucion del codigo.
+    */
+    int ronda_aux;
+    int multiplayer=0;
+    int mapa_cho=1;
+    int dano_balas=20;
+    int color_jugador=1;
+    float dificult=1;
+    bool in_game=false;
+    bool in_jump=false;
+    bool choose_salto_jugador;
+    bool definir_color=false;
+
 
     void keyPressEvent(QKeyEvent *evento);
 
