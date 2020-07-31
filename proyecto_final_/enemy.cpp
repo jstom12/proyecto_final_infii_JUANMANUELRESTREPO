@@ -73,26 +73,26 @@ void enemy::definir_parametros()
     */
     if(type==1)
     {
-        velocidad=6;
+        velocidad=8;
         vida=50;
         dano=20;
     }
     if(type==2)
     {
-        velocidad=5;
+        velocidad=7;
         vida=60;
         dano=30;
     }
     if(type==3)
     {
-        velocidad=4;
+        velocidad=6;
         vida=100;
         dano=50;
     }
     if(type==4)
     {
-        velocidad=8;
-        vida=50;
+        velocidad=10;
+        vida=80;
         dano=15;
     }
 }

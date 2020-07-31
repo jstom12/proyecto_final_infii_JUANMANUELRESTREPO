@@ -11,7 +11,7 @@ class suelo: public QGraphicsItem
     variables type,resistencia necesarias para la jugabilidad.
     */
     int type,posx,posy,w,h;
-    float resistencia;
+    float resistencia; // esta variable quedo obsoleta al encontrar una mejor manera de conseguir la inercia.
 
 public:
     suelo();

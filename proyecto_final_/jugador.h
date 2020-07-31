@@ -12,13 +12,13 @@ class jugador : public QGraphicsItem
     Los parametros dir,vida,mapa,ronda,resis,color son los necesarios para la correcta jugabilidad del jugador;
     Los parametros posx,posy y r son los necesarios para mostrar el jugador en la escena.
     */
-    float posx,posy;
-    int r;
-    int dir=4,vida=100, mapa=1, ronda=2;
-    float resis=0;
+    float posx,posy; //posicion en la escena.
+    int r; //tamano del jugador.
+    int dir=4,vida=100, mapa=1, ronda=2; // datos necesarios para la jugabilidad.
+    float resis=0; // inercia.
     float masa__=1;
-    float vel=50,vx,vy,angulo=50,g=9.8,delta=0.1;
-    bool aux=true;
+    float vel=50,vx,vy,angulo=50,g=9.8,delta=0.1; //variables necesarias para movimiento parabolico.
+    bool aux=true; // variable auxiliar que permite saber cuando el objeto debe decrecer al momento de saltar.
     int color;
 
 public:

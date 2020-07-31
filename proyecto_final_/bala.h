@@ -12,7 +12,7 @@ class bala : public QGraphicsItem
     */
     float posx,posy,r;
     double vel=5;
-    int damage=20;
+    int damage=20; // esta variable cambia en el codigo principal del juego, permitiendo aumentar la dificultad.
 
 public:
     bala();

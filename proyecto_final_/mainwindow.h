@@ -109,23 +109,34 @@ private:
     /*
     variables de los objetos graficos.
     */
+    /*
+    Variables de tipo jugador que corresponden a los dos jugadores.
+    */
     jugador *player_1;
     jugador *player_2;
-    bolita *bolita_ruleta;
-    QList<enemy*> enemigos;
-    QVector<jugador*> jugadores;
-    bala *disparo;
-    QList<bala*> balas_up;
-    QList<bala*> balas_down;
-    QList<bala*> balas_righ;
-    QList<bala*> balas_left;
+    bolita *bolita_ruleta; // variable tipo bolita que es la que se muestra girando en la ruleta.
+    QList<enemy*> enemigos; // QList de tipo enemy donde se almacenan los enemigos.
+    QVector<jugador*> jugadores; // QVector donde se almacenan las dos variables de jugador.
+    bala *disparo; // variable tipo bala que permite mostrar en la escena el disparo que se realiza.
+    QList<bala*> balas_up; //QList tipo bala donde se almacenan las balas que van hacia arriba.
+    QList<bala*> balas_down; //QList tipo bala donde se almacenan las balas que van hacia abajo.
+    QList<bala*> balas_righ; //QList tipo bala donde se almacenan las balas que van hacia la derecha.
+    QList<bala*> balas_left; //QList tipo bala donde se almacenan las balas que van hacia la izquierda.
+    /*
+    Variables tipo pared que forman un cuadrado para no permitir que los objetos graficos salgan de la escena.
+    */
     pared *pared_der;
     pared *pared_izq;
     pared *pared_up;
     pared *pared_do;
-    QVector<pared*> paredes;
-    QVector<suelo*> suelos;
-    QString name_jugador;
+    QVector<pared*> paredes; //Qvector tipo pared donde se almacenan las paredes.
+    QVector<suelo*> suelos; //QVector tipo suelo donde se almacenan los suelos del mapa.
+    QString name_jugador; //variable donde se almacena el nombre del jugador.
+    /*
+    Las siguientes variables tipo jugador son las utilizadas para graficar los circulos en la ruleta,
+    dos de cada color para que, al momento de la bolita detenerse en alguno de estos, obtener ese color
+    y darselo al jugador.
+    */
     jugador *cuadro_amarillo;
     jugador *cuadro_rosa;
     jugador *cuadro_azul_cla;
@@ -142,16 +153,16 @@ private:
     /*
     Auxiliares para la correcta ejecucion del codigo.
     */
-    int ronda_aux;
-    int multiplayer=0;
-    int mapa_cho=1;
-    int dano_balas=20;
-    int color_jugador=1;
-    float dificult=1;
-    bool in_game=false;
-    bool in_jump=false;
-    bool choose_salto_jugador;
-    bool definir_color=false;
+    int ronda_aux; // obtiene la ronda del jugador para empezar el conteo de oleadas
+    int multiplayer=0; //indica si juega un jugador(2) o multijugador(1).
+    int mapa_cho=1; // indica la eleccion del mapa.
+    int dano_balas=20; // el dano que realizan las balas a los enemigos.  (dano_enemigos)
+    int color_jugador=1; // obtiene el color del jugador de la base de datos.
+    float dificult=1; // esta variable permite reducir el movimiento de los enemigos.  (movimientos_enemigos)
+    bool in_game=false; // variable que permite saber si el juego esta en ejecucion. (iniciar_juego)
+    bool in_jump=false; // variable que permite saber si el jugador se encuentra saltando.
+    bool choose_salto_jugador; // variable que permite saber, en multijugador, cual de los dos jugadores realizo el salto.
+    bool definir_color=false; // variable que permite cambiar el color del jugador. Solo cambia a true al momento de detener la ruleta.
 
 
     void keyPressEvent(QKeyEvent *evento);

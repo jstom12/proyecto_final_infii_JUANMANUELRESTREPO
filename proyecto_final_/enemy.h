@@ -19,7 +19,7 @@ class enemy: public QGraphicsItem
     int vida,dano,r=20,type,mapa;
     float posx , posy;
     float velocidad,resist=1;
-    float velx,vely,ax,ay,mass=1,radio,angulo;
+    float velx,vely,ax,ay,mass=1,radio,angulo; //estas variables no se utilizan.
 
 public:
     enemy();

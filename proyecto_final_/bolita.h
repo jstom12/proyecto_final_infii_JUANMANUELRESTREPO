@@ -4,7 +4,7 @@
 #include <QGraphicsItem>
 #include <QPainter>
 
-#define PI 3.1416
+#define PI 3.1416   //se define el numero PI como 3.1416 para utilizarlo en la funcion actualizar_posicion.
 
 
 class bolita : public QGraphicsItem

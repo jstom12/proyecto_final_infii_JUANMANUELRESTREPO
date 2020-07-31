@@ -17,18 +17,46 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
     ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
+    /*
+    El QTimer timer esta conectado a la funcion proceso a una velocidad de 10ms, dentro de dicha funcion tiene otras funciones
+    destinadas a la jugabilidad del juego (dano del jugador, trayecto de disparos, dano a enemigos) que necesitan
+    estar ejecutandose de manera constante para el correcto funcionamiento.
+    Se inicia al momento de iniciar el juego(con la funcion iniciar_juego).
+    */
     timer = new QTimer();
+    /*
+    El QTimer timer_enemigos esta conectado a la funcion generacion_enemigos a una velocidad de 5000ms, dentro de dicha
+    funcion esta el codigo que permite generar enemigos y agregarlos a la escena del juego.
+    Se inicia al momento de iniciar el juego(con la funcion iniciar_juego).
+    Se detiene al presionar ESC.
+    */
     timer_enemigos= new QTimer();
+    /*
+    El QTimer timer_movimientos esta conectado a la funcion movimientos_enemigos a una velocidad de 100ms, dentro de dicha funcion
+    se itera todos los enemigos y se ejecutan las funciones que permiten moverlos. la velocidad de 100ms
+    es un tiempo que consigue que los movimientos no sean ni muy rapidos ni muy lentos.
+    se inicia al momento de iniciar el juego(con la funcion iniciar_juego).
+    Se detiene al presionar ESC
+    */
     timer_movimientos = new QTimer();
+    /*
+    El QTimer jump esta conectado a la funcion salto_jugador a una velocidad de 20ms, dentro de dicha funcion se ejecuta la funcion
+    que permite al jugador realizar el movimiento parabolico.
+    Se inicia al momento de presionar las teclas Q o U que son las definidas para realizar los saltos.
+    Se detiene al momento en el que el jugador vuelve a su tamano original.
+    */
     jump = new QTimer();
+    /*
+    El QTimer ruleta esta conectado a la fucion bolita_giro a una velocidad de 10ms, dentro de dicha funcion se ejecuta la funcion
+    que permite a la bolita actualizar su posicion. Note que tiene la misma velocidad que el QTimer timer pero, dado a que funcionan
+    en escenas distintas, se opto por utilizar un timer diferente para evitar problemas en tiempo de ejecucion.
+    */
     ruleta = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(procesos()));
     connect(timer_enemigos,SIGNAL(timeout()),this,SLOT(generacion_enemigos()));
     connect(timer_movimientos,SIGNAL(timeout()),this,SLOT(movimientos_enemigos()));
     connect(jump,SIGNAL(timeout()),this,SLOT(salto_jugador()));
     connect(ruleta,SIGNAL(timeout()),this,SLOT(bolita_giro()));
-    //QMessageBox::information(this,tr("BIENVENIDO"),tr("Recuerda crear tu personaje si es la primera vez que juegas(NOTA: PARA EL MULTIJUGADOR NO NECESITAS INICIAR NI CREAR UN JUGADOR"));
-
 
 
 }
@@ -594,6 +622,9 @@ int MainWindow::dano_enemigos(QList<bala *> balas)
             }
         }
     }
+    /*
+    Si no se cumple la condicion dentro del for, se retorna un -1 indicando que las balas no colisionan con ningun enemigos.
+    */
     return -1;
 }
 
@@ -1063,7 +1094,8 @@ void MainWindow::iniciar_juego()
     agrega el segundo jugador a la escena.
 
     De resto, se procede a llamar la funcion eleccion_mapa para que grafique el mapa, se crean los jugadores,
-    se inician los timer, se generan los enemigos y se oculta el menu de la interfaz grafica.
+    se inician los timer, se generan los enemigos, se cambia la variable in_game a true indicando que se inicio el juego
+    y se oculta el menu de la interfaz grafica.
     */
     if(multiplayer==1)
     {
@@ -1153,7 +1185,7 @@ void MainWindow::guardado()
     */
     QFile archivo("datos.txt");
     QFile new_archivo("datosnew.txt");
-    QStringList texto_separado;
+    QStringList texto_separado; // esta variable para almacenar strings
     if (archivo.open(QIODevice::ReadOnly) && new_archivo.open(QIODevice::WriteOnly))
     {
         QTextStream in(&archivo);
@@ -1161,9 +1193,12 @@ void MainWindow::guardado()
            while (!in.atEnd())
            {
               QString line = in.readLine();
-              texto_separado = line.split(';');
+              texto_separado = line.split(';'); // se separa la linea en varios strings.
               if(texto_separado[0]==name_jugador)
               {
+                  /*
+                    Se encuentran los datos del jugador y se reemplazan.
+                    */
                   wr << name_jugador << ";" << player_1->getRonda() << ";"  << player_1->getColor() << ";" << endl;
               }
               else
@@ -1218,14 +1253,17 @@ void MainWindow::on_push_menu_clicked()
         return;
     }
 
-    ui->iniciar_game->hide();
+    ui->iniciar_game->hide(); // se esconden los botones de iniciar y multijugador.
     ui->pushButton->hide();
-    scene = new QGraphicsScene(-300,-300,605,605);
+    scene = new QGraphicsScene(-300,-300,605,605); // se cambia la escena con (0,0) en en centro de esta.
     ui->graphicsView->resize(600,600);
     ui->graphicsView->setScene(scene);
     ui->graphicsView->setBackgroundBrush(QPixmap(""));
 
 
+    /*
+    Se crean y se agregan las zonas de colores a la escena.
+    */
     cuadro_rosa = new jugador (-143,-140,50,1,2);
     scene->addItem(cuadro_rosa);
     cuadro_cafe = new jugador(-44,-195,50,1,3);
@@ -1252,6 +1290,10 @@ void MainWindow::on_push_menu_clicked()
     cuadro_verde_2 = new jugador(-138,143,50,1,5);
     scene->addItem(cuadro_verde_2);
 
+    /*
+    Se crea y se agrega la bolita que hace gira en toda la escena. se inicializa el timer y se
+    cambia la variable definir_color a true (indicando que se puede cambiar de color).
+    */
     bolita_ruleta = new bolita(0,0,10);
     scene->addItem(bolita_ruleta);
     ruleta->start(10);
@@ -1274,15 +1316,19 @@ void MainWindow::on_pushButton_2_clicked()
     Esta funcion es llamada cuando se presiona el boton stop y lo que hace es detener la ruleta.
     volver la escena a su estado original y definir el color del jugador.
     */
-    ui->iniciar_game->show();
+    ui->iniciar_game->show(); // se muestran los botones para iniciar y multijugador.
     ui->pushButton->show();
-    ui->graphicsView->resize(800,700);
-    scene = new QGraphicsScene(0,0,790,690);
+    ui->graphicsView->resize(800,700); // se cambia el tamano de la escena.
+    scene = new QGraphicsScene(0,0,790,690); // se crea una nueva escena.
     ui->graphicsView->setScene(scene);
     scene->backgroundBrush();
     ui->graphicsView->setBackgroundBrush(QPixmap(":/new/prefix1/resources/aguacate.png"));
     if(definir_color==true)
     {
+        /*
+        Se detiene el QTimer ruleta y, dependiendo la bolita con que objeto grafico este colisionando, se define
+        el color del jugador que es almacenado en la variable color_jugador.
+        */
         ruleta->stop();
         if(bolita_ruleta->collidesWithItem(cuadro_azul_cla) || bolita_ruleta->collidesWithItem(cuadro_azul_cla_2))
         {
